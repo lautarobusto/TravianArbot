@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import travianarbot.dao.AldeaDAO;
 import travianarbot.dao.DAOException;
 import travianarbot.modelo.Aldea;
@@ -13,11 +15,11 @@ import travianarbot.modelo.Cuenta;
 
 public class SQLiteAldeaDAO implements AldeaDAO {
 
-    final String INSERT = "INSERT or ignore INTO Aldeas (ID_Aldea, ID_Cuenta,Nombre_Aldea,Tipo_Terreno,Coordenada_X,Coordenada_Y) VALUES(?, ?, ?, ?, ?, ?)";
-    final String UPDATE = "UPDATE Aldeas SET Nombre_Aldea = ?, Tipo_Terreno = ?, Coordenada_X = ?, Coordenada_Y = ? WHERE ID_Aldea = ?";
-    final String DELETE = "DELETE FROM Cuentas WHERE ID_Aldea = ?";
+    final String INSERT = "INSERT or ignore INTO Aldeas (ID, ID_Cuenta,Nombre,Tipo_Terreno,Coordenada_X,Coordenada_Y,Z) VALUES(?, ?, ?, ?, ?, ?,?)";
+    final String UPDATE = "UPDATE Aldeas SET Nombre = ?, Tipo_Terreno = ?, Coordenada_X = ?, Coordenada_Y = ?, Z= ? WHERE ID = ?";
+    final String DELETE = "DELETE FROM Cuentas WHERE ID = ?";
     final String GETALL = "SELECT * FROM Aldeas";
-    final String GETONE = "SELECT * FROM Aldeas WHERE ID_Aldea = ?";
+    final String GETONE = "SELECT * FROM Aldeas WHERE ID = ?";
     private Connection conn;
 
     public SQLiteAldeaDAO(Connection conn) {
@@ -27,12 +29,14 @@ public class SQLiteAldeaDAO implements AldeaDAO {
     private Aldea convertir(ResultSet rs) throws SQLException {
         int id_aldea = rs.getInt(1);
         int id_cuenta = rs.getInt(2);
+
         String nombre_aldea = rs.getString(3);
         String tipo_terreno = rs.getString(4);
         int coord_x = rs.getInt(5);
         int coord_y = rs.getInt(6);
+        int z = rs.getInt(7);
+        Aldea aldea = new Aldea(id_aldea, id_cuenta, nombre_aldea, tipo_terreno, coord_x, coord_y, z);
 
-        Aldea aldea = new Aldea(id_aldea, id_cuenta, nombre_aldea, tipo_terreno, coord_x, coord_y);
         return aldea;
     }
 
@@ -49,6 +53,7 @@ public class SQLiteAldeaDAO implements AldeaDAO {
             pst.setString(4, x.getTipo_terreno());
             pst.setInt(5, x.getCoordenada_x());
             pst.setInt(6, x.getCoordenada_y());
+            pst.setInt(7, x.getZ());
 
             if (pst.executeUpdate() == 0) {
                 throw new DAOException("Error en  en executeUpdate");
@@ -71,10 +76,13 @@ public class SQLiteAldeaDAO implements AldeaDAO {
     public void insertarBatch(List<Aldea> x) throws DAOException {
         PreparedStatement pst = null;
         ResultSet rst = null;
+        try {
 
-        for (Aldea a : x) {
-            System.out.println(a.toString());
-            try {
+            pst = conn.prepareStatement("Delete from Aldeas");
+            pst.executeUpdate();
+
+            for (Aldea a : x) {
+
                 pst = conn.prepareStatement(INSERT);
                 pst.setInt(1, a.getId_aldea());
                 pst.setInt(2, a.getId_cuenta());
@@ -82,6 +90,7 @@ public class SQLiteAldeaDAO implements AldeaDAO {
                 pst.setString(4, a.getTipo_terreno());
                 pst.setInt(5, a.getCoordenada_x());
                 pst.setInt(6, a.getCoordenada_y());
+                pst.setInt(7, a.getZ());
 
                 if (pst.executeUpdate() == 0) {
                     throw new DAOException("Error en  en executeUpdate");
@@ -93,11 +102,11 @@ public class SQLiteAldeaDAO implements AldeaDAO {
                     throw new DAOException("Error en  en executeUpdate");
                 }
 
-            } catch (SQLException ex) {
-                throw new DAOException("Error en  SQL", ex);
-            } finally {
-                SQLiteUtils.cerrar(pst, rst);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLiteAldeaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            SQLiteUtils.cerrar(pst, rst);
         }
     }
 

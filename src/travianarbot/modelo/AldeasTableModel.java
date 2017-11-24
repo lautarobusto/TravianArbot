@@ -73,6 +73,7 @@ public class AldeasTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Aldea consulta = datos.get(rowIndex);
+        
         switch (columnIndex) {
             case 0:
                 return consulta.getId_aldea();

@@ -11,71 +11,63 @@ package travianarbot.modelo;
  */
 public class Cuenta {
 
-    private int id_cuenta;
-    private String nombre_cuenta;
-    private String contraseña_cuenta;
-    private String servidor_cuenta;
+    private int id;
+    private String nombre;
+    private String contraseña;
+    private String servidor;
     private int id_raza;
     private String lowRes;
 
     public Cuenta() {
     }
 
-    public Cuenta(int id_cuenta, String nombre_cuenta, String contraseña_cuenta, String servidor_cuenta, int id_raza, String lowRes) {
-        this.id_cuenta = id_cuenta;
-        this.nombre_cuenta = nombre_cuenta;
-        this.contraseña_cuenta = contraseña_cuenta;
-        this.servidor_cuenta = servidor_cuenta;
+    public Cuenta(String nombre, String contraseña, String servidor, int id_raza, String lowRes) {
+        this.nombre = nombre;
+        this.contraseña = contraseña;
+        this.servidor = servidor;
         this.id_raza = id_raza;
         this.lowRes = lowRes;
     }
 
-    public Cuenta(String nombre_cuenta, String contraseña_cuenta, String servidor_cuenta, int id_raza, String lowRes) {
-        this.nombre_cuenta = nombre_cuenta;
-        this.contraseña_cuenta = contraseña_cuenta;
-        this.servidor_cuenta = servidor_cuenta;
+    public Cuenta(int id, String nombre, String contraseña, String servidor, int id_raza, String lowRes) {
+        this.id = id;
+        this.nombre = nombre;
+        this.contraseña = contraseña;
+        this.servidor = servidor;
         this.id_raza = id_raza;
         this.lowRes = lowRes;
     }
 
-    public String getLowRes() {
-        return lowRes;
+    public int getId() {
+        return id;
     }
 
-    public void setLowRes(String lowRes) {
-        this.lowRes = lowRes;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getId_cuenta() {
-        return id_cuenta;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setId_cuenta(int id_cuenta) {
-        this.id_cuenta = id_cuenta;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getNombre_cuenta() {
-        return nombre_cuenta;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setNombre_cuenta(String nombre_cuenta) {
-        this.nombre_cuenta = nombre_cuenta;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
-    public String getContraseña_cuenta() {
-        return contraseña_cuenta;
+    public String getServidor() {
+        return servidor;
     }
 
-    public void setContraseña_cuenta(String contraseña_cuenta) {
-        this.contraseña_cuenta = contraseña_cuenta;
-    }
-
-    public String getServidor_cuenta() {
-        return servidor_cuenta;
-    }
-
-    public void setServidor_cuenta(String servidor_cuenta) {
-        this.servidor_cuenta = servidor_cuenta;
+    public void setServidor(String servidor) {
+        this.servidor = servidor;
     }
 
     public int getId_raza() {
@@ -86,11 +78,17 @@ public class Cuenta {
         this.id_raza = id_raza;
     }
 
-    @Override
-    public String toString() {
-        return "Cuenta{" + "id_cuenta=" + id_cuenta + ", nombre_cuenta=" + nombre_cuenta + ", contrase\u00f1a_cuenta=" + contraseña_cuenta + ", servidor_cuenta=" + servidor_cuenta + ", id_raza=" + id_raza + ", lowRes=" + lowRes + '}';
+    public String getLowRes() {
+        return lowRes;
     }
 
-    
+    public void setLowRes(String lowRes) {
+        this.lowRes = lowRes;
+    }
+
+    @Override
+    public String toString() {
+        return "Cuenta{" + "id=" + id + ", nombre=" + nombre + ", contrase\u00f1a=" + contraseña + ", servidor=" + servidor + ", id_raza=" + id_raza + ", lowRes=" + lowRes + '}';
+    }
 
 }

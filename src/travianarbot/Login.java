@@ -33,9 +33,9 @@ public class Login {
 
     public void xLogin(Cuenta cuenta) {
         username.clear();
-        username.sendKeys(cuenta.getNombre_cuenta());
+        username.sendKeys(cuenta.getNombre());
         password.clear();
-        password.sendKeys(cuenta.getContraseña_cuenta());
+        password.sendKeys(cuenta.getContraseña());
         if (Boolean.valueOf(cuenta.getLowRes())) {
             check.click();
         }

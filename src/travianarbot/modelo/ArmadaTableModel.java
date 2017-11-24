@@ -74,9 +74,9 @@ public class ArmadaTableModel extends AbstractTableModel {
         Armada consulta = datos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return consulta.getId_armada();
+                return consulta.getId();
             case 1:
-                return consulta.getNombre_armada();
+                return consulta.getNombre();
             case 2:
                 return consulta.getT1();
             case 3:

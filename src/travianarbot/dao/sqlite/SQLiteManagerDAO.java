@@ -30,7 +30,7 @@ public class SQLiteManagerDAO implements ManagerDAO {
 
     public SQLiteManagerDAO() throws SQLException {
         this.conn = DriverManager.getConnection("jdbc:sqlite:TravianArbotDB.sqlite3");
-
+        //this.conn = DriverManager.getConnection("jdbc:sqlite:TravianArbotDB.sqlite3", "pasword", "felicora123");
     }
 
     @Override

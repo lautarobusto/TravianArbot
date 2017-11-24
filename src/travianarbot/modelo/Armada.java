@@ -2,8 +2,8 @@ package travianarbot.modelo;
 
 public class Armada {
 
-    private int id_armada = -1;
-    private String nombre_armada;
+    private int id = -1;
+    private String nombre;
     private int t1;
     private int t2;
     private int t3;
@@ -15,66 +15,64 @@ public class Armada {
     private int t9;
     private int t10;
     private int t11;
-    private int elo;
+    private int puntos_ataque;
+    private int velocidad;
+    private int transporte;
+
+    public Armada(int id, String nombre, int t1, int t2, int t3, int t4, int t5, int t6, int t7, int t8, int t9, int t10, int t11, int puntos_ataque, int velocidad, int transporte) {
+        this.id = id;
+        this.nombre = nombre;
+        this.t1 = t1;
+        this.t2 = t2;
+        this.t3 = t3;
+        this.t4 = t4;
+        this.t5 = t5;
+        this.t6 = t6;
+        this.t7 = t7;
+        this.t8 = t8;
+        this.t9 = t9;
+        this.t10 = t10;
+        this.t11 = t11;
+        this.puntos_ataque = puntos_ataque;
+        this.velocidad = velocidad;
+        this.transporte = transporte;
+    }
+
+    public Armada(String nombre, int t1, int t2, int t3, int t4, int t5, int t6, int t7, int t8, int t9, int t10, int t11, int puntos_ataque, int velocidad, int transporte) {
+        this.nombre = nombre;
+        this.t1 = t1;
+        this.t2 = t2;
+        this.t3 = t3;
+        this.t4 = t4;
+        this.t5 = t5;
+        this.t6 = t6;
+        this.t7 = t7;
+        this.t8 = t8;
+        this.t9 = t9;
+        this.t10 = t10;
+        this.t11 = t11;
+        this.puntos_ataque = puntos_ataque;
+        this.velocidad = velocidad;
+        this.transporte = transporte;
+    }
 
     public Armada() {
     }
 
-    public Armada(int id_armada, String nombre_armada, int t1, int t2, int t3, int t4, int t5, int t6, int t7, int t8, int t9, int t10, int t11, int elo) {
-        this.id_armada = id_armada;
-        this.nombre_armada = nombre_armada;
-        this.t1 = t1;
-        this.t2 = t2;
-        this.t3 = t3;
-        this.t4 = t4;
-        this.t5 = t5;
-        this.t6 = t6;
-        this.t7 = t7;
-        this.t8 = t8;
-        this.t9 = t9;
-        this.t10 = t10;
-        this.t11 = t11;
-        this.elo = elo;
+    public int getId() {
+        return id;
     }
 
-    public Armada(String nombre_armada, int t1, int t2, int t3, int t4, int t5, int t6, int t7, int t8, int t9, int t10, int t11, int elo) {
-        this.nombre_armada = nombre_armada;
-        this.t1 = t1;
-        this.t2 = t2;
-        this.t3 = t3;
-        this.t4 = t4;
-        this.t5 = t5;
-        this.t6 = t6;
-        this.t7 = t7;
-        this.t8 = t8;
-        this.t9 = t9;
-        this.t10 = t10;
-        this.t11 = t11;
-        this.elo = elo;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getElo() {
-        return elo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setElo(int elo) {
-        this.elo = elo;
-    }
-
-    public int getId_armada() {
-        return id_armada;
-    }
-
-    public void setId_armada(int id_armada) {
-        this.id_armada = id_armada;
-    }
-
-    public String getNombre_armada() {
-        return nombre_armada;
-    }
-
-    public void setNombre_armada(String nombre_armada) {
-        this.nombre_armada = nombre_armada;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getT1() {
@@ -165,9 +163,33 @@ public class Armada {
         this.t11 = t11;
     }
 
+    public int getPuntos_ataque() {
+        return puntos_ataque;
+    }
+
+    public void setPuntos_ataque(int puntos_ataque) {
+        this.puntos_ataque = puntos_ataque;
+    }
+
+    public int getVelocidad() {
+        return velocidad;
+    }
+
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
+
+    public int getTransporte() {
+        return transporte;
+    }
+
+    public void setTransporte(int transporte) {
+        this.transporte = transporte;
+    }
+
     @Override
     public String toString() {
-        return "Armada{" + "id_armada=" + id_armada + ", nombre_armada=" + nombre_armada + ", t1=" + t1 + ", t2=" + t2 + ", t3=" + t3 + ", t4=" + t4 + ", t5=" + t5 + ", t6=" + t6 + ", t7=" + t7 + ", t8=" + t8 + ", t9=" + t9 + ", t10=" + t10 + ", t11=" + t11 + '}';
+        return "Armada{" + "id=" + id + ", nombre=" + nombre + ", t1=" + t1 + ", t2=" + t2 + ", t3=" + t3 + ", t4=" + t4 + ", t5=" + t5 + ", t6=" + t6 + ", t7=" + t7 + ", t8=" + t8 + ", t9=" + t9 + ", t10=" + t10 + ", t11=" + t11 + ", puntos_ataque=" + puntos_ataque + ", velocidad=" + velocidad + ", transporte=" + transporte + '}';
     }
 
     public int[] toArray() {

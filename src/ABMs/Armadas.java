@@ -4,6 +4,7 @@ import travianarbot.modelo.ArmadaTableModel;
 import java.awt.Frame;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -115,7 +116,7 @@ public class Armadas extends javax.swing.JFrame {
 
     public void loadData() {
         if (armada != null) {
-            nombreArmada.setText(armada.getNombre_armada());
+            nombreArmada.setText(armada.getNombre());
             tropa1.setValue(armada.getT1());
             tropa2.setValue(armada.getT2());
             tropa3.setValue(armada.getT3());
@@ -127,6 +128,8 @@ public class Armadas extends javax.swing.JFrame {
             tropa9.setValue(armada.getT9());
             tropa10.setValue(armada.getT10());
             tropa11.setValue(armada.getT11());
+            elo.setText(String.valueOf(armada.getPuntos_ataque()));
+            velocidad.setText(String.valueOf(armada.getVelocidad()));
 
         } else {
             nombreArmada.setText("");
@@ -141,6 +144,9 @@ public class Armadas extends javax.swing.JFrame {
             tropa9.setValue(0);
             tropa10.setValue(0);
             tropa11.setValue(0);
+            elo.setText(String.valueOf(0));
+            velocidad.setText(String.valueOf(0));
+
         }
     }
 
@@ -148,7 +154,7 @@ public class Armadas extends javax.swing.JFrame {
         if (armada == null) {
             armada = new Armada();
         }
-        armada.setNombre_armada(nombreArmada.getText());
+        armada.setNombre(nombreArmada.getText());
         armada.setT1((Integer) tropa1.getValue());
         armada.setT2((Integer) tropa2.getValue());
         armada.setT3((Integer) tropa3.getValue());
@@ -160,8 +166,8 @@ public class Armadas extends javax.swing.JFrame {
         armada.setT9((Integer) tropa9.getValue());
         armada.setT10((Integer) tropa10.getValue());
         armada.setT11((Integer) tropa11.getValue());
-        armada.setElo(Integer.valueOf(elo.getText()));
-
+        armada.setPuntos_ataque(Integer.valueOf(elo.getText()));
+        armada.setVelocidad(Integer.valueOf(velocidad.getText()));
     }
 
     public void getElo() {
@@ -177,6 +183,60 @@ public class Armadas extends javax.swing.JFrame {
         elo += (Integer) tropa9.getValue() * tropas.get(8).getAtaque_tropa();
         elo += (Integer) tropa10.getValue() * tropas.get(9).getAtaque_tropa();
         this.elo.setText(String.valueOf(elo));
+    }
+
+    public void getVelocidad() {
+        List<Integer> velocidad = new ArrayList<>();
+
+        if ((Integer) tropa1.getValue() != 0) {
+            velocidad.add(tropas.get(0).getVelocidad_tropa());
+        }
+        if ((Integer) tropa2.getValue() != 0) {
+            velocidad.add(tropas.get(1).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa3.getValue() != 0) {
+            velocidad.add(tropas.get(2).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa4.getValue() != 0) {
+            velocidad.add(tropas.get(3).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa5.getValue() != 0) {
+            velocidad.add(tropas.get(4).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa6.getValue() != 0) {
+            velocidad.add(tropas.get(5).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa7.getValue() != 0) {
+            velocidad.add(tropas.get(6).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa8.getValue() != 0) {
+            velocidad.add(tropas.get(7).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa9.getValue() != 0) {
+            velocidad.add(tropas.get(8).getVelocidad_tropa());
+        }
+        if ((Integer) tropa10.getValue() != 0) {
+            velocidad.add(tropas.get(9).getVelocidad_tropa());
+        }
+
+        if ((Integer) tropa11.getValue() != 0) {
+            velocidad.add(14);
+        }
+        Collections.sort(velocidad);
+        if (!velocidad.isEmpty()) {
+            this.velocidad.setText(String.valueOf(velocidad.get(0)));
+
+        } else {
+            this.velocidad.setText(String.valueOf(0));
+        }
+
     }
 
 //@SuppressWarnings("unchecked")
@@ -224,6 +284,8 @@ public class Armadas extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         elo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        velocidad = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -567,31 +629,33 @@ public class Armadas extends javax.swing.JFrame {
         jScrollPane2.setViewportView(armadaTable);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText("Puntos de Off toal:");
+        jLabel2.setMaximumSize(new java.awt.Dimension(100, 25));
+        jLabel2.setMinimumSize(new java.awt.Dimension(100, 25));
+        jLabel2.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, -1));
 
+        elo.setEditable(false);
         elo.setEnabled(false);
+        elo.setPreferredSize(new java.awt.Dimension(100, 25));
+        elo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eloActionPerformed(evt);
+            }
+        });
+        jPanel3.add(elo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(elo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(elo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
+        jLabel1.setText("Velocidad de Armada");
+        jLabel1.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 120, -1));
+
+        velocidad.setEditable(false);
+        velocidad.setEnabled(false);
+        velocidad.setPreferredSize(new java.awt.Dimension(100, 25));
+        jPanel3.add(velocidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -615,8 +679,8 @@ public class Armadas extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -710,8 +774,9 @@ public class Armadas extends javax.swing.JFrame {
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
         getElo();
+        getVelocidad();
         SaveData();
-        if (armada.getId_armada() == -1) {
+        if (armada.getId() == -1) {
             try {
                 manager.getArmadaDAO().insertar(armada);
                 this.model = new ArmadaTableModel(manager.getArmadaDAO());
@@ -745,6 +810,10 @@ public class Armadas extends javax.swing.JFrame {
     private void tropa1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tropa1FocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_tropa1FocusLost
+
+    private void eloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eloActionPerformed
 
     private void setIcons() {
         Config config = new Config();
@@ -814,6 +883,7 @@ public class Armadas extends javax.swing.JFrame {
     private javax.swing.JLabel icon7;
     private javax.swing.JLabel icon8;
     private javax.swing.JLabel icon9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JPanel jPanel1;
@@ -838,5 +908,6 @@ public class Armadas extends javax.swing.JFrame {
     private javax.swing.JSpinner tropa7;
     private javax.swing.JSpinner tropa8;
     private javax.swing.JSpinner tropa9;
+    private javax.swing.JTextField velocidad;
     // End of variables declaration//GEN-END:variables
 }

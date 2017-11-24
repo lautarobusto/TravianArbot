@@ -69,25 +69,25 @@ public class VacaTableModel extends AbstractTableModel {
         Vaca consulta = datos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return consulta.getId_vaca();
+                return consulta.getId();
             case 1:
-                return consulta.getNombre_vaca();
+                return consulta.getNombre();
             case 2:
-                return consulta.getId_aldea();
+                return consulta.getId_aldea_origen();
             case 3:
                 return consulta.getId_movimiento();
             case 4:
-                return consulta.getId_armada();
+                return consulta.getId_armada_activa();
             case 5:
                 return consulta.getEficiencia();
             case 6:
-                return consulta.getElo();
+                return consulta.getPuntos_ataque();
             case 7:
                 return consulta.getCoordenada_x();
             case 8:
                 return consulta.getCoordenada_y();
             case 9:
-                return consulta.getActivo();
+                return consulta.isActivo();
             case 10:
                 return consulta.getZ();
 

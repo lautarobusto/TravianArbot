@@ -14,10 +14,12 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import travianarbot.Config;
 import travianarbot.TravianArbot;
 import static travianarbot.TravianArbot.enviarVaca;
@@ -48,6 +50,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu2 = new javax.swing.JMenu();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         Cuenta = new javax.swing.JPanel();
@@ -57,7 +60,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         raza = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        iniciarBot = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         navegador = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
@@ -73,6 +75,9 @@ public class TravianArbotGui extends javax.swing.JFrame {
         VacasActivasJlist = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jTabbedPane4 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         Inicio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -87,9 +92,13 @@ public class TravianArbotGui extends javax.swing.JFrame {
         Temporizadores = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+
+        jMenu2.setText("jMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("TravianArBot-1.1");
+        setTitle("Mi Sonambulo -Beta- v1"); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -117,14 +126,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
         raza.setPreferredSize(new java.awt.Dimension(14, 24));
 
         jLabel3.setText("Contraseña");
-
-        iniciarBot.setText("Iniciar Bot");
-        iniciarBot.setMargin(new java.awt.Insets(2, 15, 2, 14));
-        iniciarBot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iniciarBotActionPerformed(evt);
-            }
-        });
 
         jLabel6.setText("Navegador");
 
@@ -154,8 +155,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
             CuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CuentaLayout.createSequentialGroup()
                 .addComponent(iniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(iniciarBot, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(CuentaLayout.createSequentialGroup()
                 .addContainerGap()
@@ -183,9 +182,9 @@ public class TravianArbotGui extends javax.swing.JFrame {
                         .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(CuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(navegador, 0, 100, Short.MAX_VALUE)
+                    .addComponent(navegador, 0, 89, Short.MAX_VALUE)
                     .addComponent(raza, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
         CuentaLayout.setVerticalGroup(
             CuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,9 +210,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
                     .addComponent(lowres)
                     .addComponent(recordarCredenciales))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(CuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(iniciarSesion)
-                    .addComponent(iniciarBot))
+                .addComponent(iniciarSesion)
                 .addContainerGap())
         );
 
@@ -314,6 +311,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Vacas", jPanel1);
 
+        jTabbedPane2.addTab("Edificios", jTabbedPane3);
+        jTabbedPane2.addTab("Granjas", jTabbedPane4);
+
+        jTabbedPane1.addTab("Edificios", jTabbedPane2);
+
         Inicio.setText("Inicio");
 
         jMenuItem1.setText("Abrir Browser");
@@ -395,6 +397,18 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu3.setText("Herramientas");
+
+        jMenuItem4.setText("Actualizar Aldeas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -412,18 +426,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-//        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-//        driver = new ChromeDriver();
-//        new SwingWorker<Void, Void>() {
-//            @Override
-//            protected Void doInBackground() throws Exception {
-//                
-//                travianarbot.TravianArbot.InicializarWebBrowser(driver);
-//                return null;
-//                
-//            }
-//        }.execute();
 
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -435,7 +437,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void editarvacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarvacasActionPerformed
-
+        
         try {
             ManagerDAO manager = new SQLiteManagerDAO();
             Vacas frm = new Vacas(this, manager);
@@ -463,10 +465,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editarArmadaActionPerformed
 
-    private void iniciarBotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBotActionPerformed
-        TravianArbot.getAldeas(driver);
-    }//GEN-LAST:event_iniciarBotActionPerformed
-
     private void iniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionActionPerformed
         // TODO add your handling code here:
         iniciarSesion.setEnabled(false);
@@ -490,6 +488,18 @@ public class TravianArbotGui extends javax.swing.JFrame {
             config.editPropertie("LowRes", "");
             config.editPropertie("RecordarCredenciales", "");
         }
+        try {
+            this.manager = new SQLiteManagerDAO();
+            if (this.manager.getCuentaDAO().obtener(cuenta.getServidor()) == null) {
+                this.manager.getCuentaDAO().insertar(cuenta);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         new SwingWorker<Void, Void>() {
@@ -497,19 +507,16 @@ public class TravianArbotGui extends javax.swing.JFrame {
             protected Void doInBackground() throws Exception {
 
                 travianarbot.TravianArbot.InicializarWebBrowser(driver, cuenta);
+                TravianArbot.getAldeas(driver);
+                updateTablaAldeas();
+                
                 return null;
 
             }
+
         }.execute();
-//        try {
-//            this.manager = new SQLiteManagerDAO();
-//            manager.getCuentaDao().insertar(cuenta);
-//            manager.closeConection();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (DAOException ex) {
-//            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        
+
 
     }//GEN-LAST:event_iniciarSesionActionPerformed
 
@@ -589,6 +596,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
         TravianArbot.getInformesOfensivos(driver);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        TravianArbot.getAldeas(driver);
+        updateTablaAldeas();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem ActivarTimerVacas;
@@ -603,7 +615,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JList<String> VacasActivasJlist;
     private javax.swing.JMenuItem editarArmada;
     private javax.swing.JMenuItem editarvacas;
-    private javax.swing.JButton iniciarBot;
     private javax.swing.JButton iniciarSesion;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -613,16 +624,22 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JCheckBox lowres;
     private javax.swing.JComboBox<String> navegador;
     private javax.swing.JPasswordField password;
@@ -643,23 +660,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
         navegador.setSelectedItem(values[4]);
         lowres.setSelected(Boolean.valueOf(values[5]));
         recordarCredenciales.setSelected(Boolean.valueOf(values[6]));
-
-        try {
-            this.manager = new SQLiteManagerDAO();
-        } catch (SQLException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.model = new AldeasTableModel(manager.getAldeaDAO());
-        try {
-            this.model.updateModel();
-        } catch (DAOException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.Aldeas.setModel(model);
-        this.Aldeas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        this.model.resizeColumnWidth(Aldeas);
-
-        this.Aldeas.getTableHeader().setReorderingAllowed(false);
+        updateTablaAldeas();
         updateVacasActivasList();
 
     }
@@ -691,7 +692,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
                 for (Vaca aux : vacasActivasAux) {
                     boolean existe = false;
                     for (Vaca act : this.vacasActivas) {
-                        if (aux.getId_vaca() == act.getId_vaca()) {
+                        if (aux.getId() == act.getId()) {
                             existe = true;
                         }
                     }
@@ -705,7 +706,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
                 for (Vaca act : vacaActivasAux2) {
                     boolean existe = false;
                     for (Vaca aux : vacasActivasAux) {
-                        if (aux.getId_vaca() == act.getId_vaca()) {
+                        if (aux.getId() == act.getId()) {
                             existe = true;
                         }
                     }
@@ -720,11 +721,28 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
         lm = new DefaultListModel();
         for (Vaca item : this.vacasActivas) {
-            lm.addElement(item.getNombre_vaca());
+            lm.addElement(item.getNombre());
 
         }
 
         this.VacasActivasJlist.setModel(lm);
+
+    }
+
+    public void updateTablaAldeas() {
+        try {
+            this.manager = new SQLiteManagerDAO();
+            this.model = new AldeasTableModel(manager.getAldeaDAO());
+            this.model.updateModel();
+            this.Aldeas.setModel(model);
+            this.Aldeas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            this.model.resizeColumnWidth(Aldeas);
+            this.Aldeas.getTableHeader().setReorderingAllowed(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

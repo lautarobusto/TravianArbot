@@ -10,8 +10,9 @@ import travianarbot.dao.DAOException;
 import travianarbot.dao.InformeOfensivoDAO;
 import travianarbot.modelo.InformeOfensivo;
 public class SQLiteInformeOfensivoDAO implements InformeOfensivoDAO {
-
-    final String INSERT = "INSERT INTO InformesOfensivos (ID, Asunto,Fecha,Hora,Botin_Posible,Botin_Real,Eficiencia,ID_Aldea_Atacante,ID_Vaca_Defensora) VALUES(?,?,?,?,?,?,?,?,?)";
+    
+    final String INSERT = "INSERT or replace INTO InformesOfensivos (ID, Asunto,Fecha,Hora,Botin_Posible,Botin_Real,Eficiencia,ID_Aldea_Atacante,ID_Vaca_Defensora) "
+            + "VALUES(?,?,?,?,?,?,?,(select Aldeas.ID_Aldea from Aldeas where Z =?),(select ID_Vaca from Vacas where Z = ?))";
     final String UPDATE = "Update InformesOfensivos SET Asunto=? ,Fecha= ?,Hora= ?,Botin_Posible= ?,Botin_Real= ?,Eficiencia= ?,ID_Aldea_Atacante= ?,ID_Vaca_Defensora= ? where ID = ?";
     final String DELETE = "DELETE FROM InformesOfensivos WHERE ID = ?";
     final String GETALL = "SELECT * FROM InformesOfensivos";

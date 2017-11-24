@@ -6,20 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import travianarbot.dao.ArmadaDAO;
 import travianarbot.dao.DAOException;
 import travianarbot.modelo.Armada;
 
 public class SQLiteArmadaDAO implements ArmadaDAO {
 
-    final String INSERT = "INSERT INTO Armadas (Nombre_Armada, T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,Elo_Armada) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE = "Update Armadas SET Nombre_Armada=? ,T1= ?,T2= ?,T3= ?,T4= ?,T5= ?,T6= ?,T7= ?,T8= ?,T9= ?,T10= ?,T11= ?,Elo_Armada =? where ID_Armada = ?";
-    final String DELETE = "DELETE FROM Armadas WHERE ID_Armada = ?";
+    final String INSERT = "INSERT INTO Armadas (Nombre, T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,Puntos_Ataque,Velocidad,Transporte) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    final String UPDATE = "Update Armadas SET Nombre_Armada=? ,T1= ?,T2= ?,T3= ?,T4= ?,T5= ?,T6= ?,T7= ?,T8= ?,T9= ?,T10= ?,T11= ?,Elo =?,Velocidad =?,Transporte where ID = ?";
+    final String DELETE = "DELETE FROM Armadas WHERE ID= ?";
     final String GETALL = "SELECT * FROM Armadas";
-    final String GETONE = "SELECT * FROM Armadas WHERE ID_Armada = ?";
-    final String GETBYELO = "SELECT * FROM Armadas ORDER BY ELO DESC";
+    final String GETONE = "SELECT * FROM Armadas WHERE ID = ?";
+    final String GETBYELO = "SELECT * FROM Armadas ORDER BY Puntos_Ataque DESC";
     private Connection conn;
 
     public SQLiteArmadaDAO(Connection conn) {
@@ -27,8 +25,8 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
     }
 
     private Armada convertir(ResultSet rs) throws SQLException {
-        int id_armada = rs.getInt(1);
-        String nombre_armada = rs.getString(2);
+        int id = rs.getInt(1);
+        String nombre = rs.getString(2);
         int t1 = rs.getInt(3);
         int t2 = rs.getInt(4);
         int t3 = rs.getInt(5);
@@ -40,8 +38,11 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
         int t9 = rs.getInt(11);
         int t10 = rs.getInt(12);
         int t11 = rs.getInt(13);
-        int elo = rs.getInt(14);
-        Armada armada = new Armada(id_armada, nombre_armada, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, elo);
+        int puntos_ataque = rs.getInt(14);
+        int velocidad = rs.getInt(15);
+        int transporte = rs.getInt(16);
+
+        Armada armada = new Armada(id, nombre, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, puntos_ataque, velocidad, transporte);
         return armada;
     }
 
@@ -52,7 +53,7 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
 
         try {
             pst = conn.prepareStatement(INSERT);
-            pst.setString(1, x.getNombre_armada());
+            pst.setString(1, x.getNombre());
             pst.setInt(2, x.getT1());
             pst.setInt(3, x.getT2());
             pst.setInt(4, x.getT3());
@@ -64,14 +65,16 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
             pst.setInt(10, x.getT9());
             pst.setInt(11, x.getT10());
             pst.setInt(12, x.getT11());
-            pst.setInt(13, x.getElo());
+            pst.setInt(13, x.getPuntos_ataque());
+            pst.setInt(14, x.getVelocidad());
+            pst.setInt(15, x.getTransporte());
 
             if (pst.executeUpdate() == 0) {
                 throw new DAOException("Error en  en executeUpdate");
             }
             rst = pst.getGeneratedKeys();
             if (rst.next()) {
-                x.setId_armada(rst.getInt(1));
+                x.setId(rst.getInt(1));
             } else {
                 throw new DAOException("Error en  en executeUpdate");
             }
@@ -93,7 +96,7 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
         PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(UPDATE);
-            pst.setString(1, x.getNombre_armada());
+            pst.setString(1, x.getNombre());
             pst.setInt(2, x.getT1());
             pst.setInt(3, x.getT2());
             pst.setInt(4, x.getT3());
@@ -105,8 +108,10 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
             pst.setInt(10, x.getT9());
             pst.setInt(11, x.getT10());
             pst.setInt(12, x.getT11());
-            pst.setInt(13, x.getElo());
-            pst.setInt(14, x.getId_armada());
+            pst.setInt(13, x.getPuntos_ataque());
+            pst.setInt(14, x.getVelocidad());
+            pst.setInt(15, x.getTransporte());
+            pst.setInt(16, x.getId());
             if (pst.executeUpdate() == 0) {
                 throw new DAOException("No se Actualizo el elemento");
 
@@ -123,7 +128,7 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
         PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement(DELETE);
-            pst.setInt(1, x.getId_armada());
+            pst.setInt(1, x.getId());
             if (pst.executeUpdate() == -1) {
                 throw new DAOException("No se pudo modificar revisar ID");
             }
