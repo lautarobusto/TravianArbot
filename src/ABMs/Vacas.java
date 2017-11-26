@@ -257,9 +257,6 @@ public class Vacas extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel28 = new javax.swing.JLabel();
         jRadioButton2 = new javax.swing.JRadioButton();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
-        jTabbedPane4 = new javax.swing.JTabbedPane();
-        jTabbedPane5 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
 
@@ -463,7 +460,6 @@ public class Vacas extends javax.swing.JFrame {
         jLabel25.setPreferredSize(new java.awt.Dimension(75, 25));
         jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, -1));
 
-        addArmada.setIcon(new javax.swing.ImageIcon("E:\\Documentos\\NetBeansProjects\\TravianArbot\\Resources\\Icons\\add-1.png")); // NOI18N
         addArmada.setMaximumSize(new java.awt.Dimension(54, 25));
         addArmada.setMinimumSize(new java.awt.Dimension(54, 25));
         addArmada.setPreferredSize(new java.awt.Dimension(54, 25));
@@ -544,6 +540,7 @@ public class Vacas extends javax.swing.JFrame {
 
         jRadioButton1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jRadioButton1.setText("Progresion");
+        jRadioButton1.setEnabled(false);
         jPanel3.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 100, -1));
 
         jLabel28.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -556,15 +553,11 @@ public class Vacas extends javax.swing.JFrame {
         jPanel3.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 30));
 
         jRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jRadioButton2.setSelected(true);
         jRadioButton2.setText("Armada");
         jPanel3.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 210, 90));
-
-        jTabbedPane3.addTab("Armada", jTabbedPane4);
-        jTabbedPane3.addTab("Progresion", jTabbedPane5);
-
-        jPanel2.add(jTabbedPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 300, 90));
 
         jTabbedPane1.addTab("Vaca Info", jPanel2);
 
@@ -817,9 +810,6 @@ public class Vacas extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTabbedPane jTabbedPane4;
-    private javax.swing.JTabbedPane jTabbedPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField nombreVaca;

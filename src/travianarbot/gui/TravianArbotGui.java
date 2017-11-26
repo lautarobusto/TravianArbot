@@ -52,7 +52,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
         jMenu2 = new javax.swing.JMenu();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        vacaTab = new javax.swing.JPanel();
         Cuenta = new javax.swing.JPanel();
         lowres = new javax.swing.JCheckBox();
         recordarCredenciales = new javax.swing.JCheckBox();
@@ -70,14 +70,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Aldeas = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        geralTab = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         VacasActivasJlist = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
-        jTabbedPane4 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         Inicio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -245,28 +242,28 @@ public class TravianArbotGui extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout vacaTabLayout = new javax.swing.GroupLayout(vacaTab);
+        vacaTab.setLayout(vacaTabLayout);
+        vacaTabLayout.setHorizontalGroup(
+            vacaTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(vacaTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Cuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        vacaTabLayout.setVerticalGroup(
+            vacaTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(vacaTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(vacaTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Cuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("General", jPanel2);
+        jTabbedPane1.addTab("General", vacaTab);
 
         jScrollPane2.setViewportView(VacasActivasJlist);
 
@@ -284,11 +281,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout geralTabLayout = new javax.swing.GroupLayout(geralTab);
+        geralTab.setLayout(geralTabLayout);
+        geralTabLayout.setHorizontalGroup(
+            geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(geralTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71)
@@ -297,24 +294,19 @@ public class TravianArbotGui extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addContainerGap(372, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        geralTabLayout.setVerticalGroup(
+            geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(geralTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(239, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Vacas", jPanel1);
-
-        jTabbedPane2.addTab("Edificios", jTabbedPane3);
-        jTabbedPane2.addTab("Granjas", jTabbedPane4);
-
-        jTabbedPane1.addTab("Edificios", jTabbedPane2);
+        jTabbedPane1.addTab("Vacas", geralTab);
 
         Inicio.setText("Inicio");
 
@@ -464,69 +456,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
             Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_editarArmadaActionPerformed
-
-    private void iniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionActionPerformed
-        // TODO add your handling code here:
-        iniciarSesion.setEnabled(false);
-        Cuenta cuenta = new Cuenta(usuario.getText(), password.getText(), servidor.getText(), raza.getSelectedIndex() + 1, String.valueOf(lowres.isSelected()));
-        if (recordarCredenciales.isSelected()) {
-            Config config = new Config();
-            config.editPropertie("Server", servidor.getText());
-            config.editPropertie("Usuario", usuario.getText());
-            config.editPropertie("Password", password.getText());
-            config.editPropertie("Raza", String.valueOf(raza.getSelectedItem()));
-            config.editPropertie("Navegador", String.valueOf(navegador.getSelectedItem()));
-            config.editPropertie("LowRes", String.valueOf(lowres.isSelected()));
-            config.editPropertie("RecordarCredenciales", String.valueOf(recordarCredenciales.isSelected()));
-        } else {
-            Config config = new Config();
-            config.editPropertie("Server", "");
-            config.editPropertie("Usuario", "");
-            config.editPropertie("Password", "");
-            config.editPropertie("Raza", "");
-            config.editPropertie("Navegador", "");
-            config.editPropertie("LowRes", "");
-            config.editPropertie("RecordarCredenciales", "");
-        }
-        try {
-            this.manager = new SQLiteManagerDAO();
-            if (this.manager.getCuentaDAO().obtener(cuenta.getServidor()) == null) {
-                this.manager.getCuentaDAO().insertar(cuenta);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DAOException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-        driver = new ChromeDriver();
-        new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-
-                travianarbot.TravianArbot.InicializarWebBrowser(driver, cuenta);
-                TravianArbot.getAldeas(driver);
-                updateTablaAldeas();
-                
-                return null;
-
-            }
-
-        }.execute();
-        
-
-
-    }//GEN-LAST:event_iniciarSesionActionPerformed
-
-    private void servidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servidorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_servidorActionPerformed
-
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
     public Timer timerVaca() {
         Timer timer = new Timer();
         Config config = new Config();
@@ -572,15 +501,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, true));
-        updateVacasActivasList();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        updateVacasActivasList();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void ActivarTimerVacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActivarTimerVacasActionPerformed
         if (ActivarTimerVacas.isSelected()) {
             timerVaca = timerVaca();
@@ -601,6 +521,76 @@ public class TravianArbotGui extends javax.swing.JFrame {
         updateTablaAldeas();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        updateVacasActivasList();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, true));
+        updateVacasActivasList();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
+
+    private void servidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servidorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_servidorActionPerformed
+
+    private void iniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionActionPerformed
+        // TODO add your handling code here:
+        iniciarSesion.setEnabled(false);
+        Cuenta cuenta = new Cuenta(usuario.getText(), password.getText(), servidor.getText(), raza.getSelectedIndex() + 1, String.valueOf(lowres.isSelected()));
+        if (recordarCredenciales.isSelected()) {
+            Config config = new Config();
+            config.editPropertie("Server", servidor.getText());
+            config.editPropertie("Usuario", usuario.getText());
+            config.editPropertie("Password", password.getText());
+            config.editPropertie("Raza", String.valueOf(raza.getSelectedItem()));
+            config.editPropertie("Navegador", String.valueOf(navegador.getSelectedItem()));
+            config.editPropertie("LowRes", String.valueOf(lowres.isSelected()));
+            config.editPropertie("RecordarCredenciales", String.valueOf(recordarCredenciales.isSelected()));
+        } else {
+            Config config = new Config();
+            config.editPropertie("Server", "");
+            config.editPropertie("Usuario", "");
+            config.editPropertie("Password", "");
+            config.editPropertie("Raza", "");
+            config.editPropertie("Navegador", "");
+            config.editPropertie("LowRes", "");
+            config.editPropertie("RecordarCredenciales", "");
+        }
+        try {
+            this.manager = new SQLiteManagerDAO();
+            if (this.manager.getCuentaDAO().obtener(cuenta.getServidor()) == null) {
+                this.manager.getCuentaDAO().insertar(cuenta);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
+            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        driver = new ChromeDriver();
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+
+                travianarbot.TravianArbot.InicializarWebBrowser(driver, cuenta);
+                TravianArbot.getAldeas(driver);
+                updateTablaAldeas();
+
+                return null;
+
+            }
+
+        }.execute();
+
+    }//GEN-LAST:event_iniciarSesionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem ActivarTimerVacas;
@@ -615,6 +605,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JList<String> VacasActivasJlist;
     private javax.swing.JMenuItem editarArmada;
     private javax.swing.JMenuItem editarvacas;
+    private javax.swing.JPanel geralTab;
     private javax.swing.JButton iniciarSesion;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -631,15 +622,10 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JCheckBox lowres;
     private javax.swing.JComboBox<String> navegador;
     private javax.swing.JPasswordField password;
@@ -647,6 +633,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JCheckBox recordarCredenciales;
     private javax.swing.JTextField servidor;
     private javax.swing.JTextField usuario;
+    private javax.swing.JPanel vacaTab;
     // End of variables declaration//GEN-END:variables
 
     private void initMyComponents() throws SQLException, DAOException {

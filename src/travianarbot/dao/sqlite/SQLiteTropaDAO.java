@@ -13,12 +13,12 @@ import travianarbot.modelo.Tropa;
 
 public class SQLiteTropaDAO implements TropaDAO {
 
-    final String INSERT = "INSERT or ignore INTO Aldeas (ID_Aldea, ID_Cuenta,Nombre_Aldea,Tipo_Terreno,Coordenada_X,Coordenada_Y) VALUES(?, ?, ?, ?, ?, ?)";
-    final String UPDATE = "UPDATE Aldeas SET Nombre_Aldea = ?, Tipo_Terreno = ?, Coordenada_X = ?, Coordenada_Y = ? WHERE ID_Aldea = ?";
-    final String DELETE = "DELETE FROM Cuentas WHERE ID_Aldea = ?";
-    final String GETALL = "SELECT * FROM Aldeas";
+    //final String INSERT = "INSERT or ignore INTO Aldeas (ID_Aldea, ID_Cuenta,Nombre_Aldea,Tipo_Terreno,Coordenada_X,Coordenada_Y) VALUES(?, ?, ?, ?, ?, ?)";
+    //final String UPDATE = "UPDATE Aldeas SET Nombre_Aldea = ?, Tipo_Terreno = ?, Coordenada_X = ?, Coordenada_Y = ? WHERE ID_Aldea = ?";
+    // String DELETE = "DELETE FROM Cuentas WHERE ID_Aldea = ?";
+    //final String GETALL = "SELECT * FROM Aldeas";
     final String GETONE = "SELECT * FROM Tropas WHERE ID_Tropa = ?";
-    final String GETXRAZA = "SELECT * FROM Tropas WHERE Id_Raza_Tropa = (SELECT Id_Raza FROM Razas WHERE Nombre_Raza = ?)";
+    final String GETXRAZA = "SELECT * FROM Tropas WHERE Id_Raza = (SELECT Id_Raza FROM Razas WHERE Nombre_Raza = ?)";
     private Connection conn;
 
     public SQLiteTropaDAO(Connection conn) {
