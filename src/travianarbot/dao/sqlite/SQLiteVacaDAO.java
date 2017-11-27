@@ -15,9 +15,8 @@ import travianarbot.modelo.Vaca;
 
 public class SQLiteVacaDAO implements VacaDAO {
 
-    final String INSERT = "INSERT or ignore INTO Vacas (Nombre, ID_Aldea_Origen,ID_Movimiento,ID_Armada_Activa,Eficiencia,Puntos_Ataque,Coordenada_X,Coordenada_Y,Activo,Z,Modificador_Armada,Estado_Armada,Info,ID_Progresion,Progresion_Activa) "
-            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE Vacas SET Nombre = ?, ID_Aldea_Origen = ?,ID_Movimiento = ?,ID_Armada_Activa = ?,Eficiencia = ?,Puntos_Ataque = ?, Coordenada_X = ?, Coordenada_Y = ?,Activo= ?,Z= ?,Modificador_Armada = ?,Estado_Armada = ?,Info = ?, ID_Progresion= ?, Progresion_Activa= ?"
+    final String INSERT = "Insert into Vacas (Nombre,ID_Aldea_Origen,ID_Movimiento,ID_Armada,Eficiencia,Coordenada_X,Coordenada_Y,Activo,Z) Values (?,?,?,?,?,?,?,?,?)";
+    final String UPDATE = "UPDATE Vacas SET Nombre = ?, ID_Aldea_Origen = ?,ID_Movimiento = ?,ID_Armada = ?,Eficiencia = ?, Coordenada_X = ?, Coordenada_Y = ?,Activo= ?,Z= ?"
             + " WHERE ID = ?";
     final String UPDATEEFI = "UPDATE Vacas SET Eficiencia =? WHERE ID=?";
     final String DELETE = "DELETE FROM Vacas WHERE ID = ?";
@@ -36,20 +35,13 @@ public class SQLiteVacaDAO implements VacaDAO {
         String nombre = rs.getString(2);
         int id_aldea_origen = rs.getInt(3);
         String id_movimiento = rs.getString(4);
-        int id_armada_activa = rs.getInt(5);
+        int id_armada = rs.getInt(5);
         float eficiencia = rs.getFloat(6);
-        float puntos_ataque = rs.getFloat(7);
-        int coordenada_x = rs.getInt(8);
-        int coordenada_y = rs.getInt(9);
-        boolean activo = Boolean.valueOf(rs.getString(10));
-        int z = rs.getInt(11);
-        int modificador_armada = rs.getInt(12);
-        int estado_armada = rs.getInt(13);
-        String info = rs.getString(14);
-        int id_progresion = rs.getInt(15);
-        boolean usa_progresion = rs.getBoolean(16);
-
-        Vaca vaca = new Vaca(id, nombre, id_aldea_origen, id_movimiento, coordenada_x, coordenada_y, estado_armada, id_armada_activa, usa_progresion, id_progresion, estado_armada, modificador_armada, z, activo, info);
+        int coordenada_x = rs.getInt(7);
+        int coordenada_y = rs.getInt(8);
+        boolean activo = Boolean.valueOf(rs.getString(9));
+        int z = rs.getInt(10);
+        Vaca vaca = new Vaca(id, nombre, id_aldea_origen, id_movimiento, coordenada_x, coordenada_y, eficiencia, id_armada, activo, z);
         return vaca;
     }
 
@@ -57,24 +49,18 @@ public class SQLiteVacaDAO implements VacaDAO {
     public void insertar(Vaca x) throws DAOException {
         PreparedStatement pst = null;
         ResultSet rst = null;
-
+        System.out.println(x.toString());
         try {
             pst = conn.prepareStatement(INSERT);
             pst.setString(1, x.getNombre());
             pst.setInt(2, x.getId_aldea_origen());
             pst.setString(3, x.getId_movimiento());
-            pst.setInt(4, x.getId_armada_activa());
+            pst.setInt(4, x.getId_armada());
             pst.setFloat(5, x.getEficiencia());
-            pst.setFloat(6, x.getPuntos_ataque());
-            pst.setInt(7, x.getCoordenada_x());
-            pst.setInt(8, x.getCoordenada_y());
-            pst.setString(9, String.valueOf(x.isActivo()));
-            pst.setInt(10, x.getZ());
-            pst.setInt(11, x.getModificador_armada());
-            pst.setInt(12, x.getEstado_armada());
-            pst.setString(13, x.getInfo());
-            pst.setInt(14, x.getId_progresion());
-            pst.setBoolean(15, x.isProgresion_activa());
+            pst.setInt(6, x.getCoordenada_x());
+            pst.setInt(7, x.getCoordenada_y());
+            pst.setString(8, String.valueOf(x.isActivo()));
+            pst.setInt(9, x.getZ());
 
             if (pst.executeUpdate() == 0) {
                 throw new DAOException("Error en  en executeUpdate");
@@ -105,19 +91,13 @@ public class SQLiteVacaDAO implements VacaDAO {
             pst.setString(1, x.getNombre());
             pst.setInt(2, x.getId_aldea_origen());
             pst.setString(3, x.getId_movimiento());
-            pst.setInt(4, x.getId_armada_activa());
+            pst.setInt(4, x.getId_armada());
             pst.setFloat(5, x.getEficiencia());
-            pst.setFloat(6, x.getPuntos_ataque());
-            pst.setInt(7, x.getCoordenada_x());
-            pst.setInt(8, x.getCoordenada_y());
-            pst.setString(9, String.valueOf(x.isActivo()));
-            pst.setInt(10, x.getZ());
-            pst.setInt(11, x.getModificador_armada());
-            pst.setInt(12, x.getEstado_armada());
-            pst.setString(13, x.getInfo());
-            pst.setInt(14, x.getId_progresion());
-            pst.setBoolean(15, x.isProgresion_activa());
-            pst.setInt(16, x.getId());
+            pst.setInt(6, x.getCoordenada_x());
+            pst.setInt(7, x.getCoordenada_y());
+            pst.setString(8, String.valueOf(x.isActivo()));
+            pst.setInt(9, x.getZ());
+            pst.setInt(10, x.getId());
 
             if (pst.executeUpdate() == 0) {
                 throw new DAOException("No se Actualizo el elemento");

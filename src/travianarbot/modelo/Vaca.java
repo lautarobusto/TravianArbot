@@ -2,59 +2,54 @@ package travianarbot.modelo;
 
 public class Vaca {
 
-    private int id;
+    private int id=-1;
     private String nombre;
     private int id_aldea_origen;
     private String id_movimiento;
     private int coordenada_x;
     private int coordenada_y;
     private float eficiencia = 100;
-    private int puntos_ataque;
-    private int id_armada_activa;
-    private boolean progresion_activa;
-    private int id_progresion;
-    private int estado_armada;
-    private int modificador_armada;
-    private int z;
+    private int id_armada;
     private boolean activo;
-    private String info;
+    private int z;
 
     public Vaca() {
     }
 
-    public Vaca(int id, String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, int puntos_ataque, int id_armada_activa, boolean progresion_activa, int id_progresion, int estado_armada, int modificador_armada, int z, boolean activo, String info) {
+    public Vaca(String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, int id_armada, boolean activo, int z) {
+        this.nombre = nombre;
+        this.id_aldea_origen = id_aldea_origen;
+        this.id_movimiento = id_movimiento;
+        this.coordenada_x = coordenada_x;
+        this.coordenada_y = coordenada_y;
+        this.id_armada = id_armada;
+        this.activo = activo;
+        this.z = z;
+    }
+
+    public Vaca(int id, String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, int id_armada, boolean activo, int z) {
         this.id = id;
         this.nombre = nombre;
         this.id_aldea_origen = id_aldea_origen;
         this.id_movimiento = id_movimiento;
         this.coordenada_x = coordenada_x;
         this.coordenada_y = coordenada_y;
-        this.puntos_ataque = puntos_ataque;
-        this.id_armada_activa = id_armada_activa;
-        this.progresion_activa = progresion_activa;
-        this.id_progresion = id_progresion;
-        this.estado_armada = estado_armada;
-        this.modificador_armada = modificador_armada;
-        this.z = z;
+        this.id_armada = id_armada;
         this.activo = activo;
-        this.info = info;
+        this.z = z;
     }
 
-    public Vaca(String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, int puntos_ataque, int id_armada_activa, boolean progresion_activa, int id_progresion, int estado_armada, int modificador_armada, int z, boolean activo, String info) {
+    public Vaca(int id, String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, float eficiencia, int id_armada, boolean activo, int z) {
+        this.id = id;
         this.nombre = nombre;
         this.id_aldea_origen = id_aldea_origen;
         this.id_movimiento = id_movimiento;
         this.coordenada_x = coordenada_x;
         this.coordenada_y = coordenada_y;
-        this.puntos_ataque = puntos_ataque;
-        this.id_armada_activa = id_armada_activa;
-        this.progresion_activa = progresion_activa;
-        this.id_progresion = id_progresion;
-        this.estado_armada = estado_armada;
-        this.modificador_armada = modificador_armada;
-        this.z = z;
+        this.eficiencia = eficiencia;
+        this.id_armada = id_armada;
         this.activo = activo;
-        this.info = info;
+        this.z = z;
     }
 
     public int getId() {
@@ -113,60 +108,12 @@ public class Vaca {
         this.eficiencia = eficiencia;
     }
 
-    public int getPuntos_ataque() {
-        return puntos_ataque;
+    public int getId_armada() {
+        return id_armada;
     }
 
-    public void setPuntos_ataque(int puntos_ataque) {
-        this.puntos_ataque = puntos_ataque;
-    }
-
-    public int getId_armada_activa() {
-        return id_armada_activa;
-    }
-
-    public void setId_armada_activa(int id_armada_activa) {
-        this.id_armada_activa = id_armada_activa;
-    }
-
-    public boolean isProgresion_activa() {
-        return progresion_activa;
-    }
-
-    public void setProgresion_activa(boolean progresion_activa) {
-        this.progresion_activa = progresion_activa;
-    }
-
-    public int getId_progresion() {
-        return id_progresion;
-    }
-
-    public void setId_progresion(int id_progresion) {
-        this.id_progresion = id_progresion;
-    }
-
-    public int getEstado_armada() {
-        return estado_armada;
-    }
-
-    public void setEstado_armada(int estado_armada) {
-        this.estado_armada = estado_armada;
-    }
-
-    public int getModificador_armada() {
-        return modificador_armada;
-    }
-
-    public void setModificador_armada(int modificador_armada) {
-        this.modificador_armada = modificador_armada;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
+    public void setId_armada(int id_armada) {
+        this.id_armada = id_armada;
     }
 
     public boolean isActivo() {
@@ -177,17 +124,17 @@ public class Vaca {
         this.activo = activo;
     }
 
-    public String getInfo() {
-        return info;
+    public int getZ() {
+        return z;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setZ(int z) {
+        this.z = z;
     }
 
     @Override
     public String toString() {
-        return "Vaca{" + "id=" + id + ", nombre=" + nombre + ", id_aldea_origen=" + id_aldea_origen + ", id_movimiento=" + id_movimiento + ", coordenada_x=" + coordenada_x + ", coordenada_y=" + coordenada_y + ", eficiencia=" + eficiencia + ", puntos_ataque=" + puntos_ataque + ", id_armada_activa=" + id_armada_activa + ", progresion_activa=" + progresion_activa + ", id_progresion=" + id_progresion + ", estado_armada=" + estado_armada + ", modificador_armada=" + modificador_armada + ", z=" + z + ", activo=" + activo + ", info=" + info + '}';
+        return "Vaca{" + "id=" + id + ", nombre=" + nombre + ", id_aldea_origen=" + id_aldea_origen + ", id_movimiento=" + id_movimiento + ", coordenada_x=" + coordenada_x + ", coordenada_y=" + coordenada_y + ", eficiencia=" + eficiencia + ", id_armada=" + id_armada + ", activo=" + activo + ", z=" + z + '}';
     }
 
 }

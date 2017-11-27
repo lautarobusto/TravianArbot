@@ -51,6 +51,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu2 = new javax.swing.JMenu();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         vacaTab = new javax.swing.JPanel();
         Cuenta = new javax.swing.JPanel();
@@ -73,8 +74,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
         geralTab = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         VacasActivasJlist = new javax.swing.JList<>();
+        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Inicio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -265,9 +269,16 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("General", vacaTab);
 
+        geralTab.setLayout(null);
+
         jScrollPane2.setViewportView(VacasActivasJlist);
 
-        jButton1.setText("Enviar Vacas Ahora");
+        geralTab.add(jScrollPane2);
+        jScrollPane2.setBounds(12, 15, 160, 200);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton1.setText("Enviar Vacas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -281,30 +292,42 @@ public class TravianArbotGui extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout geralTabLayout = new javax.swing.GroupLayout(geralTab);
-        geralTab.setLayout(geralTabLayout);
-        geralTabLayout.setHorizontalGroup(
-            geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(geralTabLayout.createSequentialGroup()
+        jRadioButton1.setText("Enviar hasta usar todas las tropas");
+
+        jRadioButton2.setText("Enviar 1 vez por vuelta");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
-                .addComponent(jButton1)
-                .addGap(27, 27, 27)
-                .addComponent(jButton2)
-                .addContainerGap(372, Short.MAX_VALUE))
-        );
-        geralTabLayout.setVerticalGroup(
-            geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(geralTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(geralTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(239, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton2)
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+
+        geralTab.add(jPanel1);
+        jPanel1.setBounds(190, 10, 240, 160);
 
         jTabbedPane1.addTab("Vacas", geralTab);
 
@@ -603,6 +626,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem Temporizadores;
     private javax.swing.JMenu Vacas;
     private javax.swing.JList<String> VacasActivasJlist;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenuItem editarArmada;
     private javax.swing.JMenuItem editarvacas;
     private javax.swing.JPanel geralTab;
@@ -622,7 +646,10 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;

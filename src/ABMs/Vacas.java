@@ -208,7 +208,7 @@ public class Vacas extends javax.swing.JFrame {
         vaca.setNombre(nombreVaca.getText());
         vaca.setId_aldea_origen(aldeaList.get(aldeaOrigen.getSelectedIndex()).getId_aldea());
         vaca.setId_movimiento(tipoMovimiento.getSelectedItem().toString());
-        vaca.setId_armada_activa(armadasList.get(armadas.getSelectedIndex()).getId());
+        vaca.setId_armada(armadasList.get(armadas.getSelectedIndex()).getId());
         vaca.setCoordenada_x((int) coordenadax.getValue());
         vaca.setCoordenada_y((int) coordenaY.getValue());
         vaca.setActivo(activo.isSelected());
@@ -684,7 +684,7 @@ public class Vacas extends javax.swing.JFrame {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
 
         try {
-            coordenaY.commitEdit();
+            coordenadax.commitEdit();
             coordenaY.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);

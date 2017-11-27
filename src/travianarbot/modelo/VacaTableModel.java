@@ -40,14 +40,12 @@ public class VacaTableModel extends AbstractTableModel {
             case 5:
                 return "Eficiencia";
             case 6:
-                return "ELO";
-            case 7:
                 return "Coordenada X";
-            case 8:
+            case 7:
                 return "Coordenada Y";
-            case 9:
+            case 8:
                 return "Activo";
-            case 10:
+            case 9:
                 return "Karte";
             default:
                 return "";
@@ -77,18 +75,17 @@ public class VacaTableModel extends AbstractTableModel {
             case 3:
                 return consulta.getId_movimiento();
             case 4:
-                return consulta.getId_armada_activa();
+                return consulta.getId_armada();
             case 5:
                 return consulta.getEficiencia();
+
             case 6:
-                return consulta.getPuntos_ataque();
-            case 7:
                 return consulta.getCoordenada_x();
-            case 8:
+            case 7:
                 return consulta.getCoordenada_y();
-            case 9:
+            case 8:
                 return consulta.isActivo();
-            case 10:
+            case 9:
                 return consulta.getZ();
 
             default:

@@ -57,7 +57,6 @@ public class TravianArbot {
 //            }
 //        });
 
-
         TravianArbotGui frm;
         frm = new TravianArbotGui();
         frm.setVisible(true);
@@ -95,7 +94,7 @@ public class TravianArbot {
         }
 
     }
- // <editor-fold defaultstate="collapsed" desc=" ${ObtenerAldeasLookNFeel} ">
+    // <editor-fold defaultstate="collapsed" desc=" ${ObtenerAldeasLookNFeel} ">
 //    public static void getAldeas(WebDriver driver) {
 //        SwingUtilities.invokeLater(new Runnable() {
 //            public void run() {
@@ -226,6 +225,7 @@ public class TravianArbot {
 //
 //    }
 // </editor-fold>
+
     public static void getAldeas(WebDriver driver) {
         try {
             Aldea aldea = new Aldea();
@@ -378,90 +378,97 @@ public class TravianArbot {
         boolean hayTropas = true;
         List<Vaca> vacasActivasN = new ArrayList<>(vacasActivas);
 
-        if (getAldeaActica(driver) != vacasActivas.get(0).getId()) {
-            driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + vacasActivas.get(0).getId() + "&");
+        if (getAldeaActica(driver) != vacasActivas.get(0).getId_aldea_origen()) {
+            driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + vacasActivas.get(0).getId_aldea_origen() + "&");
 
         }
         getCurrentTroops(driver);
 
-        while (hayTropas) {
+        if (true) {
+            while (hayTropas) {
 
-            if (vacasActivasN.isEmpty()) {
-                break;
-            }
-            try {
-                manager = new SQLiteManagerDAO();
-                armada = manager.getArmadaDAO().obtener(vacasActivasN.get(0).getId_armada_activa());
-
-                if (getAldeaActica(driver) != vacasActivasN.get(0).getId()) {
-                    driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + vacasActivasN.get(0).getId() + "&");
-                    getCurrentTroops(driver);
+                if (vacasActivasN.isEmpty()) {
+                    break;
                 }
-                for (int i = 0; i < 11; i++) {
-                    if (armada.toArray()[i] > currentTroops[i]) {
-                        hayTropas = false;
+                try {
+                    manager = new SQLiteManagerDAO();
+                    armada = manager.getArmadaDAO().obtener(vacasActivasN.get(0).getId_armada());
+
+                    if (getAldeaActica(driver) != vacasActivasN.get(0).getId()) {
+                        driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + vacasActivasN.get(0).getId() + "&");
+                        getCurrentTroops(driver);
                     }
-                }
-                if (hayTropas) {
-
-                    driver.get(config.GetPropertie("Server") + "/build.php?tt=2&id=39");
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[0]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[1]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[2]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[3]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[4]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[5]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[3]/input ")).sendKeys(String.valueOf(armada.toArray()[6]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[3]/input ")).sendKeys(String.valueOf(armada.toArray()[7]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[8]));
-                    driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[9]));
-                    if (!driver.findElements(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[4]/input")).isEmpty()) {
-                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[10]));
+                    for (int i = 0; i < 11; i++) {
+                        if (armada.toArray()[i] > currentTroops[i]) {
+                            hayTropas = false;
+                        }
                     }
-                    driver.findElement(By.xpath("//*[@id=\"xCoordInput\"]")).sendKeys(String.valueOf(vacasActivasN.get(0).getCoordenada_x()));
-                    driver.findElement(By.xpath("//*[@id=\"yCoordInput\"]")).sendKeys(String.valueOf(vacasActivasN.get(0).getCoordenada_y()));
+                    if (hayTropas) {
 
-                    switch (vacasActivasN.get(0).getId_movimiento()) {
-                        case "Refuerzo":
-                            driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[1]/input")).click();
-                            break;
-                        case "Ataque":
-                            driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[2]/input")).click();
-                            break;
-                        case "Asalto":
-                            driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[3]/input")).click();
-                            break;
+                        driver.get(config.GetPropertie("Server") + "/build.php?tt=2&id=39");
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[0]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[1]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[1]/input ")).sendKeys(String.valueOf(armada.toArray()[2]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[3]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[4]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[2]/input ")).sendKeys(String.valueOf(armada.toArray()[5]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[3]/input ")).sendKeys(String.valueOf(armada.toArray()[6]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[3]/input ")).sendKeys(String.valueOf(armada.toArray()[7]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[1]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[8]));
+                        driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[2]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[9]));
+                        if (!driver.findElements(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[4]/input")).isEmpty()) {
+                            driver.findElement(By.xpath("//*[@id=\"troops\"]/tbody/tr[3]/td[4]/input ")).sendKeys(String.valueOf(armada.toArray()[10]));
+                        }
+                        driver.findElement(By.xpath("//*[@id=\"xCoordInput\"]")).sendKeys(String.valueOf(vacasActivasN.get(0).getCoordenada_x()));
+                        driver.findElement(By.xpath("//*[@id=\"yCoordInput\"]")).sendKeys(String.valueOf(vacasActivasN.get(0).getCoordenada_y()));
 
-                    }
-                    driver.findElement(By.xpath("//*[@id=\"btn_ok\"]/div/div[2]")).click();//boton enviar
-                    //primera advertencia Aldea propia y Aliado primer tag. No hay aldea segundo Tag.
+                        switch (vacasActivasN.get(0).getId_movimiento()) {
+                            case "Refuerzo":
+                                driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[1]/input")).click();
+                                break;
+                            case "Ataque":
+                                driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[2]/input")).click();
+                                break;
+                            case "Asalto":
+                                driver.findElement(By.xpath("//*[@id=\"build\"]/div[2]/form/div[2]/label[3]/input")).click();
+                                break;
 
-                    if (driver.findElements(By.className("alert")).isEmpty()
-                            && driver.findElements(By.className("error")).isEmpty()) {
-                        //No hay advertencia de Ataque aliado, propio, o destino vacio
+                        }
+                        driver.findElement(By.xpath("//*[@id=\"btn_ok\"]/div/div[2]")).click();//boton enviar
+                        //primera advertencia Aldea propia y Aliado primer tag. No hay aldea segundo Tag.
 
-                        driver.findElement(By.xpath("//*[@id=\"btn_ok\"]/div/div[2]")).click();
-                        Vaca v = vacasActivasN.get(0);
-                        vacasActivasN.remove(vacasActivasN.get(0));
-                        vacasActivasN.add(v);
+                        WebElement classContainer = driver.findElement(By.className("contentContainer"));
+                        boolean alert = classContainer.findElements(By.className("alert")).isEmpty();
+                        boolean error = classContainer.findElements(By.className("error")).isEmpty();
+                        if (classContainer.findElements(By.className("alert")).isEmpty()
+                                && classContainer.findElements(By.className("error")).isEmpty()) {
+                            //No hay advertencia de Ataque aliado, propio, o destino vacio
 
-                        for (int i = 0; i < 11; i++) {
-                            currentTroops[i] = currentTroops[i] - armada.toArray()[i];
+                            driver.findElement(By.xpath("//*[@id=\"btn_ok\"]/div/div[2]")).click();
+                            Vaca v = vacasActivasN.get(0);
+                            vacasActivasN.remove(vacasActivasN.get(0));
+                            vacasActivasN.add(v);
+
+                            for (int i = 0; i < 11; i++) {
+                                currentTroops[i] = currentTroops[i] - armada.toArray()[i];
+                            }
+
+                        } else {
+                            //Hay advertencia de Ataque aliado, propio, o destino vacio
+                            manager.getVacaDAO().eliminar(vacasActivasN.get(0));
+                            vacasActivasN.remove(vacasActivasN.get(0));
+
                         }
 
-                    } else {
-                        //Hay advertencia de Ataque aliado, propio, o destino vacio
-                        manager.getVacaDAO().eliminar(vacasActivasN.get(0));
-                        vacasActivasN.remove(vacasActivasN.get(0));
-
                     }
-
+                } catch (SQLException ex) {
+                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DAOException ex) {
+                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DAOException ex) {
-                Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+
         }
 
         driver.get(config.GetPropertie("Server") + "/dorf1.php");
