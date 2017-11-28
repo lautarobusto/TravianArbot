@@ -185,7 +185,7 @@ public class Vacas extends javax.swing.JFrame {
             this.coordenadax.setValue(vaca.getCoordenada_x());
             this.coordenaY.setValue(vaca.getCoordenada_y());
             for (Armada item : armadasList) {
-                if (item.getId() == vaca.getId()) {
+                if (item.getId() == vaca.getId_armada()) {
                     armada = item.getNombre();
                 }
             }
@@ -533,6 +533,11 @@ public class Vacas extends javax.swing.JFrame {
         tiempoViaje.setEditable(false);
         tiempoViaje.setEnabled(false);
         tiempoViaje.setPreferredSize(new java.awt.Dimension(100, 25));
+        tiempoViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tiempoViajeActionPerformed(evt);
+            }
+        });
         jPanel2.add(tiempoViaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 10, 100, -1));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -775,6 +780,10 @@ public class Vacas extends javax.swing.JFrame {
     private void armadasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_armadasItemStateChanged
         updateTiempo();
     }//GEN-LAST:event_armadasItemStateChanged
+
+    private void tiempoViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiempoViajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoViajeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

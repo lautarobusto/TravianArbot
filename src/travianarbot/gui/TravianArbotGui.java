@@ -3,26 +3,21 @@ package travianarbot.gui;
 import ABMs.Armadas;
 import ABMs.Vacas;
 import java.awt.Frame;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import travianarbot.Config;
 import travianarbot.TravianArbot;
-import static travianarbot.TravianArbot.enviarVaca;
 import travianarbot.dao.DAOException;
 import travianarbot.dao.ManagerDAO;
 import travianarbot.dao.sqlite.SQLiteManagerDAO;
@@ -51,7 +46,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu2 = new javax.swing.JMenu();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         vacaTab = new javax.swing.JPanel();
         Cuenta = new javax.swing.JPanel();
@@ -75,10 +70,10 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         VacasActivasJlist = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        continuoRadioButton = new javax.swing.JRadioButton();
+        vueltaRadioButton = new javax.swing.JRadioButton();
         jButton2 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Inicio = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -274,16 +269,28 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jScrollPane2.setViewportView(VacasActivasJlist);
 
         geralTab.add(jScrollPane2);
-        jScrollPane2.setBounds(12, 15, 160, 200);
+        jScrollPane2.setBounds(10, 10, 260, 200);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(null);
 
-        jButton1.setText("Enviar Vacas");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        continuoRadioButton.setText("Enviar hasta usar todas las tropas");
+        continuoRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                continuoRadioButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(continuoRadioButton);
+        continuoRadioButton.setBounds(10, 45, 200, 23);
+
+        vueltaRadioButton.setText("Enviar 1 vez por vuelta");
+        vueltaRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vueltaRadioButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(vueltaRadioButton);
+        vueltaRadioButton.setBounds(10, 68, 200, 23);
 
         jButton2.setText("Actualizar lista");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -291,47 +298,25 @@ public class TravianArbotGui extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton2);
+        jButton2.setBounds(130, 10, 105, 25);
 
-        jRadioButton1.setText("Enviar hasta usar todas las tropas");
-
-        jRadioButton2.setText("Enviar 1 vez por vuelta");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2)
-                .addContainerGap(67, Short.MAX_VALUE))
-        );
+        jButton1.setText("Enviar Vacas");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(20, 10, 99, 25);
 
         geralTab.add(jPanel1);
-        jPanel1.setBounds(190, 10, 240, 160);
+        jPanel1.setBounds(290, 10, 250, 200);
 
         jTabbedPane1.addTab("Vacas", geralTab);
 
         Inicio.setText("Inicio");
+        Inicio.setEnabled(false);
 
         jMenuItem1.setText("Abrir Browser");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -345,9 +330,11 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jMenuBar1.add(Inicio);
 
         Edit.setText("Edit");
+        Edit.setEnabled(false);
         jMenuBar1.add(Edit);
 
         Ataques.setText("Ataques");
+        Ataques.setEnabled(false);
         jMenuBar1.add(Ataques);
 
         Vacas.setText("Vacas");
@@ -401,6 +388,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jMenuBar1.add(Configuracion);
 
         jMenu1.setText("Informes");
+        jMenu1.setEnabled(false);
 
         jMenuItem3.setText("Leer Informes Ofensivos");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -434,7 +422,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
         );
 
         pack();
@@ -452,7 +440,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void editarvacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarvacasActionPerformed
-        
+
         try {
             ManagerDAO manager = new SQLiteManagerDAO();
             Vacas frm = new Vacas(this, manager);
@@ -487,7 +475,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
             public void run() {
                 if (!vacasActivas.isEmpty()) {
                     updateVacasActivasList();
-                    vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, true));
+                    vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, getContinuo()));
                     updateVacasActivasList();
                 } else {
                     System.out.println("test");
@@ -549,7 +537,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, true));
+        vacasActivas = new ArrayList<>(TravianArbot.enviarVaca(driver, vacasActivas, getContinuo()));
         updateVacasActivasList();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -614,6 +602,18 @@ public class TravianArbotGui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_iniciarSesionActionPerformed
 
+    private void continuoRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuoRadioButtonActionPerformed
+        if (vueltaRadioButton.isSelected()) {
+            vueltaRadioButton.setSelected(false);
+        }
+    }//GEN-LAST:event_continuoRadioButtonActionPerformed
+
+    private void vueltaRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vueltaRadioButtonActionPerformed
+        if (continuoRadioButton.isSelected()) {
+            continuoRadioButton.setSelected(false);
+        }
+    }//GEN-LAST:event_vueltaRadioButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBoxMenuItem ActivarTimerVacas;
@@ -626,7 +626,8 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem Temporizadores;
     private javax.swing.JMenu Vacas;
     private javax.swing.JList<String> VacasActivasJlist;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JRadioButton continuoRadioButton;
     private javax.swing.JMenuItem editarArmada;
     private javax.swing.JMenuItem editarvacas;
     private javax.swing.JPanel geralTab;
@@ -648,8 +649,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -661,6 +660,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     private javax.swing.JTextField servidor;
     private javax.swing.JTextField usuario;
     private javax.swing.JPanel vacaTab;
+    private javax.swing.JRadioButton vueltaRadioButton;
     // End of variables declaration//GEN-END:variables
 
     private void initMyComponents() throws SQLException, DAOException {
@@ -740,6 +740,16 @@ public class TravianArbotGui extends javax.swing.JFrame {
         }
 
         this.VacasActivasJlist.setModel(lm);
+
+    }
+
+    private boolean getContinuo() {
+
+        if (continuoRadioButton.isSelected()) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
