@@ -283,6 +283,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jPanel1.add(continuoRadioButton);
         continuoRadioButton.setBounds(10, 45, 200, 23);
 
+        vueltaRadioButton.setSelected(true);
         vueltaRadioButton.setText("Enviar 1 vez por vuelta");
         vueltaRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

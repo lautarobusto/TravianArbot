@@ -12,7 +12,8 @@ import travianarbot.dao.InformeOfensivoDAO;
 import travianarbot.dao.ManagerDAO;
 import travianarbot.dao.TropaDAO;
 import travianarbot.dao.VacaDAO;
-import travianarbot.modelo.InformeOfensivo;
+
+import org.sqlite.SQLiteConfig;
 
 public class SQLiteManagerDAO implements ManagerDAO {
 
@@ -23,14 +24,26 @@ public class SQLiteManagerDAO implements ManagerDAO {
     private VacaDAO vaca = null;
     private TropaDAO tropa = null;
     private InformeOfensivoDAO informe = null;
+    private static final String DB_URL = "jdbc:sqlite:TravianArbotDB.sqlite3";
+    private static final String DRIVER = "org.sqlite.JDBC";
 
     public SQLiteManagerDAO(String dbname) throws SQLException {
         this.conn = DriverManager.getConnection("jdbc:sqlite:" + dbname);
     }
 
-    public SQLiteManagerDAO() throws SQLException {
-        this.conn = DriverManager.getConnection("jdbc:sqlite:TravianArbotDB.sqlite3");
-        //this.conn = DriverManager.getConnection("jdbc:sqlite:TravianArbotDB.sqlite3", "pasword", "felicora123");
+//    public SQLiteManagerDAO() throws SQLException {
+//        this.conn = DriverManager.getConnection("jdbc:sqlite:TravianArbotDB.sqlite3");
+//
+//    }
+    public SQLiteManagerDAO() throws ClassNotFoundException {
+        Class.forName(DRIVER);
+        try {
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            conn = DriverManager.getConnection(DB_URL, config.toProperties());
+        } catch (SQLException ex) {
+        }
+
     }
 
     @Override

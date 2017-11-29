@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import travianarbot.dao.ArmadaDAO;
 import travianarbot.dao.DAOException;
 import travianarbot.modelo.Armada;
@@ -133,7 +134,8 @@ public class SQLiteArmadaDAO implements ArmadaDAO {
                 throw new DAOException("No se pudo modificar revisar ID");
             }
         } catch (SQLException e) {
-            throw new DAOException("Erro SQL", e);
+            //throw new DAOException("Erro SQL", e);
+            JOptionPane.showMessageDialog(null, "No es posible eliminar esa armada, es posible que este en uso");
         } finally {
             SQLiteUtils.cerrar(pst);
         }

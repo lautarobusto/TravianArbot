@@ -529,6 +529,7 @@
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="vueltaRadioButton">
                   <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Enviar 1 vez por vuelta"/>
                   </Properties>
                   <Events>
