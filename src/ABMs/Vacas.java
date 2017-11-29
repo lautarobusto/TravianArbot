@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import travianarbot.dao.DAOException;
@@ -125,13 +128,17 @@ public class Vacas extends javax.swing.JFrame {
 
         try {
             armadasList = manager.getArmadaDAO().obtenerTodos();
+
+            String[] armadasModel = new String[armadasList.size()];
+            for (int i = 0; i < armadasList.size(); i++) {
+                armadasModel[i] = armadasList.get(i).getNombre();
+            }
+            armadas.setModel(new DefaultComboBoxModel(armadasModel));
+
         } catch (DAOException ex) {
             Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        armadas.removeAllItems();
-        for (Armada item : armadasList) {
-            armadas.addItem(item.getNombre());
-        }
+
     }
 
     public void getNfillAldeas() {
@@ -164,7 +171,9 @@ public class Vacas extends javax.swing.JFrame {
         this.aldeaOrigen.setSelectedIndex(0);
         this.coordenadax.setValue(0);
         this.coordenaY.setValue(0);
-        this.armadas.setSelectedIndex(0);
+        if (this.armadas.getItemCount() != 0) {
+            this.armadas.setSelectedIndex(0);
+        }
         this.activo.setSelected(false);
         vacaTable.clearSelection();
 

@@ -468,7 +468,7 @@ public class TravianArbot {
                 }
             }
         } else {
-            for (Vaca a : vacasActivasN) {
+            for (int s = 0; s < vacasActivasN.size(); s++) {
 
                 if (vacasActivasN.isEmpty()) {
                     break;
