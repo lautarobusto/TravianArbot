@@ -12,7 +12,7 @@ public interface ManagerDAO {
 
     TropaDAO getTropaDAO();
 
-    InformeOfensivoDAO getInformeOfensivoDAO();
+    InformeVacaDAO getInformeVacaDAO();
 
     void closeConection();
 

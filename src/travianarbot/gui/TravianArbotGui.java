@@ -389,7 +389,6 @@ public class TravianArbotGui extends javax.swing.JFrame {
         jMenuBar1.add(Configuracion);
 
         jMenu1.setText("Informes");
-        jMenu1.setEnabled(false);
 
         jMenuItem3.setText("Leer Informes Ofensivos");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -525,7 +524,7 @@ public class TravianArbotGui extends javax.swing.JFrame {
     }//GEN-LAST:event_ActivarTimerVacasActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        TravianArbot.getInformesOfensivos(driver);
+        TravianArbot.getInformesVacas(driver, vacasActivas);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

@@ -1,8 +1,11 @@
 package travianarbot.modelo;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 public class Vaca {
 
-    private int id=-1;
+    private int id = -1;
     private String nombre;
     private int id_aldea_origen;
     private String id_movimiento;
@@ -14,6 +17,10 @@ public class Vaca {
     private int z;
 
     public Vaca() {
+    }
+
+    public Vaca(int z) {
+        this.z = z;
     }
 
     public Vaca(String nombre, int id_aldea_origen, String id_movimiento, int coordenada_x, int coordenada_y, int id_armada, boolean activo, int z) {
@@ -135,6 +142,33 @@ public class Vaca {
     @Override
     public String toString() {
         return "Vaca{" + "id=" + id + ", nombre=" + nombre + ", id_aldea_origen=" + id_aldea_origen + ", id_movimiento=" + id_movimiento + ", coordenada_x=" + coordenada_x + ", coordenada_y=" + coordenada_y + ", eficiencia=" + eficiencia + ", id_armada=" + id_armada + ", activo=" + activo + ", z=" + z + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.z);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Vaca)) {
+            return false;
+        }
+        Vaca vaca = (Vaca) o;
+        return z == vaca.z;
+
+    }
+
+    public static class CompId implements Comparator<Vaca> {
+
+        @Override
+        public int compare(Vaca arg0, Vaca arg1) {
+            return arg0.z - arg1.z;
+        }
     }
 
 }
