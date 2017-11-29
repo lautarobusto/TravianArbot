@@ -25,10 +25,11 @@ public class SQLiteManagerDAO implements ManagerDAO {
     private TropaDAO tropa = null;
     private InformeOfensivoDAO informe = null;
     private static final String DB_URL = "jdbc:sqlite:TravianArbotDB.sqlite3";
-    private static final String DRIVER = "org.sqlite.JDBC";
+    //private static final String DRIVER = "org.sqlite.JDBC";
 
     public SQLiteManagerDAO(String dbname) throws SQLException {
         this.conn = DriverManager.getConnection("jdbc:sqlite:" + dbname);
+
     }
 
 //    public SQLiteManagerDAO() throws SQLException {
@@ -36,11 +37,13 @@ public class SQLiteManagerDAO implements ManagerDAO {
 //
 //    }
     public SQLiteManagerDAO() throws ClassNotFoundException {
-        Class.forName(DRIVER);
+        // Class.forName(DRIVER);
         try {
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
+
             conn = DriverManager.getConnection(DB_URL, config.toProperties());
+            
         } catch (SQLException ex) {
         }
 
