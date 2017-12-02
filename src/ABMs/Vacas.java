@@ -24,20 +24,20 @@ import travianarbot.modelo.Vaca;
 import travianarbot.modelo.VacaTableModel;
 
 public class Vacas extends javax.swing.JFrame {
-
+    
     private ManagerDAO manager;
     private VacaTableModel model;
     private Frame frm = new Frame();
     private List<Aldea> aldeaList = new ArrayList<Aldea>();
     private List<Armada> armadasList = new ArrayList<Armada>();
     private Vaca vaca = new Vaca();
-
+    
     public Vacas(TravianArbotGui aThis, ManagerDAO manager) throws DAOException {
         initComponents();
-
+        
         frm = aThis;
         frm.setEnabled(false);
-
+        
         this.manager = manager;
         this.model = new VacaTableModel(manager.getVacaDAO());
         this.model.updateModel();
@@ -55,7 +55,7 @@ public class Vacas extends javax.swing.JFrame {
             nuevo.setEnabled(!seleccionValida);
         });
         this.coordenadax.addChangeListener((e) -> {
-
+            
             try {
                 this.coordenadax.commitEdit();
             } catch (ParseException ex) {
@@ -65,9 +65,9 @@ public class Vacas extends javax.swing.JFrame {
             updateDistancia();
             updateTiempo();
         });
-
+        
         this.coordenaY.addChangeListener((e) -> {
-
+            
             try {
                 this.coordenaY.commitEdit();
             } catch (ParseException ex) {
@@ -77,72 +77,72 @@ public class Vacas extends javax.swing.JFrame {
             updateDistancia();
             updateTiempo();
         });
-
+        
         setIsEditable(false);
         getNfillAldeas();
         getNfillArmadas();
         setIsEditable(false);
     }
-
+    
     public void updateKarte() {
         int karte = 320801;
-
+        
         int valor = karte + ((int) coordenadax.getValue()) - (((int) coordenaY.getValue()) * 801);
-
+        
         Z.setText(String.valueOf(valor));
-
+        
     }
-
+    
     public void updateTiempo() {
         float dist = Float.valueOf(distancia.getText());
         int vel = armadasList.get(armadas.getSelectedIndex()).getVelocidad();
-
+        
         long millis = (long) ((dist / vel) * 3600000);
-
+        
         String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
         tiempoViaje.setText(hms);
-
+        
     }
-
+    
     public void updateDistancia() {
-
+        
         int xOrigen = aldeaList.get(aldeaOrigen.getSelectedIndex()).getCoordenada_x();
         int yOrigen = aldeaList.get(aldeaOrigen.getSelectedIndex()).getCoordenada_y();
         int xDestino = (int) coordenadax.getValue();
         int yDestino = (int) coordenaY.getValue();
-
+        
         int xRes = xOrigen - xDestino;
-
+        
         int yRes = yOrigen - yDestino;
-
+        
         double distancias = Math.sqrt(((xRes * xRes) + (yRes * yRes)));
-
+        
         BigDecimal bigDecimal = new BigDecimal(distancias);
         BigDecimal roundedWithScale = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP);
         distancia.setText(String.valueOf(roundedWithScale));
     }
-
+    
     public void getNfillArmadas() {
-
+        
         try {
             armadasList = manager.getArmadaDAO().obtenerTodos();
-
+            
             String[] armadasModel = new String[armadasList.size()];
             for (int i = 0; i < armadasList.size(); i++) {
                 armadasModel[i] = armadasList.get(i).getNombre();
             }
             armadas.setModel(new DefaultComboBoxModel(armadasModel));
-
+            
         } catch (DAOException ex) {
             Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
     public void getNfillAldeas() {
-
+        
         try {
             aldeaList = manager.getAldeaDAO().obtenerTodos();
         } catch (DAOException ex) {
@@ -152,7 +152,7 @@ public class Vacas extends javax.swing.JFrame {
             aldeaOrigen.addItem(item.getNombre_aldea());
         }
     }
-
+    
     public void setIsEditable(Boolean isEditable) {
         this.nombreVaca.setEnabled(isEditable);
         this.tipoMovimiento.setEnabled(isEditable);
@@ -162,9 +162,9 @@ public class Vacas extends javax.swing.JFrame {
         this.armadas.setEnabled(isEditable);
         this.addArmada.setEnabled(isEditable);
         this.activo.setEnabled(isEditable);
-
+        
     }
-
+    
     public void clearFields() {
         this.nombreVaca.setText("");
         this.tipoMovimiento.setSelectedIndex(2);
@@ -176,9 +176,9 @@ public class Vacas extends javax.swing.JFrame {
         }
         this.activo.setSelected(false);
         vacaTable.clearSelection();
-
+        
     }
-
+    
     public void loadData() {
         String aldea = null;
         String armada = null;
@@ -202,17 +202,17 @@ public class Vacas extends javax.swing.JFrame {
             this.activo.setSelected(vaca.isActivo());
             this.Z.setText(String.valueOf(vaca.getZ()));
             vacaTable.clearSelection();
-
+            
         } else {
             nombreVaca.setText("");
-
+            
         }
     }
-
+    
     public void SaveData() {
         if (vaca == null) {
             vaca = new Vaca();
-
+            
         }
         vaca.setNombre(nombreVaca.getText());
         vaca.setId_aldea_origen(aldeaList.get(aldeaOrigen.getSelectedIndex()).getId_aldea());
@@ -222,7 +222,7 @@ public class Vacas extends javax.swing.JFrame {
         vaca.setCoordenada_y((int) coordenaY.getValue());
         vaca.setActivo(activo.isSelected());
         vaca.setZ(Integer.valueOf(Z.getText()));
-
+        
     }
 
 //@SuppressWarnings("unchecked")
@@ -266,8 +266,15 @@ public class Vacas extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel28 = new javax.swing.JLabel();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel31 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
+        aldeaOrigen1 = new javax.swing.JComboBox<>();
+        activo1 = new javax.swing.JCheckBox();
+        jLabel32 = new javax.swing.JLabel();
+        addArmada1 = new javax.swing.JButton();
+        armadas1 = new javax.swing.JComboBox<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -459,7 +466,7 @@ public class Vacas extends javax.swing.JFrame {
                 armadasItemStateChanged(evt);
             }
         });
-        jPanel2.add(armadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 50, 110, -1));
+        jPanel2.add(armadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 110, -1));
 
         jLabel25.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel25.setText("Coordenada X");
@@ -469,6 +476,7 @@ public class Vacas extends javax.swing.JFrame {
         jLabel25.setPreferredSize(new java.awt.Dimension(75, 25));
         jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, -1));
 
+        addArmada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-1.png"))); // NOI18N
         addArmada.setMaximumSize(new java.awt.Dimension(54, 25));
         addArmada.setMinimumSize(new java.awt.Dimension(54, 25));
         addArmada.setPreferredSize(new java.awt.Dimension(54, 25));
@@ -477,7 +485,7 @@ public class Vacas extends javax.swing.JFrame {
                 addArmadaActionPerformed(evt);
             }
         });
-        jPanel2.add(addArmada, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 30, -1));
+        jPanel2.add(addArmada, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 50, 30, -1));
 
         Z.setText("336852");
         Z.setEnabled(false);
@@ -492,11 +500,11 @@ public class Vacas extends javax.swing.JFrame {
         jPanel2.add(Z, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 60, -1));
 
         jLabel27.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel27.setText("Tiempo de viaje aprox");
+        jLabel27.setText("Armada");
         jLabel27.setMaximumSize(new java.awt.Dimension(110, 20));
         jLabel27.setMinimumSize(new java.awt.Dimension(110, 20));
         jLabel27.setPreferredSize(new java.awt.Dimension(75, 25));
-        jPanel2.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 120, -1));
+        jPanel2.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 70, -1));
 
         distancia.setText("0");
         distancia.setEnabled(false);
@@ -573,6 +581,13 @@ public class Vacas extends javax.swing.JFrame {
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 210, 90));
 
+        jLabel31.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel31.setText("Tiempo de viaje aprox");
+        jLabel31.setMaximumSize(new java.awt.Dimension(110, 20));
+        jLabel31.setMinimumSize(new java.awt.Dimension(110, 20));
+        jLabel31.setPreferredSize(new java.awt.Dimension(75, 25));
+        jPanel2.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 120, -1));
+
         jTabbedPane1.addTab("Vaca Info", jPanel2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -587,7 +602,84 @@ public class Vacas extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Opciones Avanzadas", jPanel1);
-        jTabbedPane1.addTab("Informes de Asaltos", jTabbedPane2);
+
+        jLabel30.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel30.setText("Aldea de Origen");
+        jLabel30.setPreferredSize(new java.awt.Dimension(75, 25));
+
+        aldeaOrigen1.setMinimumSize(new java.awt.Dimension(100, 25));
+        aldeaOrigen1.setPreferredSize(new java.awt.Dimension(100, 25));
+
+        activo1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        activo1.setText("Activa?");
+        activo1.setPreferredSize(new java.awt.Dimension(110, 20));
+        activo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activo1ActionPerformed(evt);
+            }
+        });
+
+        jLabel32.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel32.setText("Armada");
+        jLabel32.setMaximumSize(new java.awt.Dimension(110, 20));
+        jLabel32.setMinimumSize(new java.awt.Dimension(110, 20));
+        jLabel32.setPreferredSize(new java.awt.Dimension(75, 25));
+
+        addArmada1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-1.png"))); // NOI18N
+        addArmada1.setMaximumSize(new java.awt.Dimension(54, 25));
+        addArmada1.setMinimumSize(new java.awt.Dimension(54, 25));
+        addArmada1.setPreferredSize(new java.awt.Dimension(54, 25));
+        addArmada1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addArmada1ActionPerformed(evt);
+            }
+        });
+
+        armadas1.setMaximumSize(new java.awt.Dimension(100, 25));
+        armadas1.setMinimumSize(new java.awt.Dimension(100, 25));
+        armadas1.setPreferredSize(new java.awt.Dimension(100, 25));
+        armadas1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                armadas1ItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(aldeaOrigen1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(addArmada1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(armadas1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(activo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(398, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aldeaOrigen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addArmada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(armadas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addComponent(activo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Insertar Automaticamente (ALFA)", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -596,7 +688,7 @@ public class Vacas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
@@ -645,7 +737,7 @@ public class Vacas extends javax.swing.JFrame {
         vacaTable.setEnabled(true);
         setIsEditable(false);
         clearFields();
-
+        
 
     }//GEN-LAST:event_borrarActionPerformed
 
@@ -660,17 +752,17 @@ public class Vacas extends javax.swing.JFrame {
         clearFields();
         nombreVaca.requestFocus();
     }//GEN-LAST:event_nuevoActionPerformed
-
+    
     private void getVacaSelected() throws DAOException, SQLException {
         manager = new SQLiteManagerDAO();
         int id = (int) vacaTable.getValueAt(vacaTable.getSelectedRow(), 0);
         this.vaca = manager.getVacaDAO().obtener(id);
-
+        
     }
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         try {
-
+            
             getVacaSelected();
             loadData();
             guardar.setEnabled(true);
@@ -694,9 +786,10 @@ public class Vacas extends javax.swing.JFrame {
         nuevo.setEnabled(true);
 
     }//GEN-LAST:event_cancelarActionPerformed
-
+    
+   
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-
+        
         try {
             coordenadax.commitEdit();
             coordenaY.commitEdit();
@@ -705,10 +798,10 @@ public class Vacas extends javax.swing.JFrame {
         }
         updateKarte();
         updateDistancia();
-
+        
         {
             SaveData();
-
+            
             if (vaca.getId() == -1) {
                 if (!manager.getVacaDAO().exist(Integer.valueOf(Z.getText()))) {
                     try {
@@ -716,7 +809,7 @@ public class Vacas extends javax.swing.JFrame {
                         this.model = new VacaTableModel(manager.getVacaDAO());
                         this.model.updateModel();
                         this.vacaTable.setModel(model);
-
+                        
                     } catch (DAOException ex) {
                         Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -727,13 +820,13 @@ public class Vacas extends javax.swing.JFrame {
                 }
                 clearFields();
             } else {
-
+                
                 try {
                     manager.getVacaDAO().modificar(vaca);
                     this.model = new VacaTableModel(manager.getVacaDAO());
                     this.model.updateModel();
                     this.vacaTable.setModel(model);
-
+                    
                 } catch (DAOException ex) {
                     Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -744,10 +837,10 @@ public class Vacas extends javax.swing.JFrame {
                 vacaTable.setEnabled(true);
                 setIsEditable(false);
                 clearFields();
-
+                
                 return;
             }
-
+            
         }
         clearFields();
         cancelar.setEnabled(false);
@@ -759,48 +852,63 @@ public class Vacas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_guardarActionPerformed
 
+    private void tiempoViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiempoViajeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoViajeActionPerformed
+
+    private void distanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_distanciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_distanciaActionPerformed
+
+    private void ZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ZActionPerformed
+
     private void addArmadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addArmadaActionPerformed
         try {
             ManagerDAO manager = new SQLiteManagerDAO();
             Armadas armadas = new Armadas(this, manager);
             armadas.setVisible(true);
-//            manager.closeConection();
+            //            manager.closeConection();
 
         } catch (DAOException ex) {
             Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
         }        // TODO add your handling code here:
-
     }//GEN-LAST:event_addArmadaActionPerformed
-
-    private void distanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_distanciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_distanciaActionPerformed
-
-    private void activoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_activoActionPerformed
-
-    private void ZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ZActionPerformed
 
     private void armadasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_armadasItemStateChanged
         updateTiempo();
     }//GEN-LAST:event_armadasItemStateChanged
 
-    private void tiempoViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiempoViajeActionPerformed
+    private void activoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tiempoViajeActionPerformed
+    }//GEN-LAST:event_activoActionPerformed
+
+    private void activo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_activo1ActionPerformed
+
+    private void addArmada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addArmada1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addArmada1ActionPerformed
+
+    private void armadas1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_armadas1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_armadas1ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Z;
     private javax.swing.JCheckBox activo;
+    private javax.swing.JCheckBox activo1;
     private javax.swing.JButton addArmada;
+    private javax.swing.JButton addArmada1;
     private javax.swing.JComboBox<String> aldeaOrigen;
+    private javax.swing.JComboBox<String> aldeaOrigen1;
     private javax.swing.JComboBox<String> armadas;
+    private javax.swing.JComboBox<String> armadas1;
     private javax.swing.JButton borrar;
     private javax.swing.JButton cancelar;
     private javax.swing.JSpinner coordenaY;
@@ -817,9 +925,13 @@ public class Vacas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -827,7 +939,6 @@ public class Vacas extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField nombreVaca;

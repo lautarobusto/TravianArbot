@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -363,7 +364,6 @@ public class TravianArbot {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc=" ${enviarVaca} ">
     public static List<Vaca> enviarVaca(WebDriver driver, List<Vaca> vacasActivas, boolean continuo) {
         if (vacasActivas.isEmpty()) {
             return vacasActivas;
@@ -401,7 +401,6 @@ public class TravianArbot {
         return vacasActivasN;
 
     }
-    // </editor-fold>
 
     private static void envioVacaGenerico(WebDriver driver, List<Vaca> vacasActivasN, Armada armada, Config config, Boolean hayTropas) {
 
@@ -484,95 +483,112 @@ public class TravianArbot {
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" ${getInformesOfensivos} ">
     public static void getInformesVacas(WebDriver driver, List<Vaca> vacas) {
         Config config = new Config();
+        String lastInforme = "";
         try {
             manager = new SQLiteManagerDAO();
+            lastInforme = manager.getInformeVacaDAO().obtenerUltimo();
+            System.out.println(lastInforme);
         } catch (SQLException ex) {
             Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
+            Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         InformeVaca informe = new InformeVaca();
         Vaca vaca = new Vaca();
         Object[] tropas = null, perdidas = null, prisioneros = null;
         int tropasInt, perdidasInt, prisionerosInt;
         driver.get(config.GetPropertie("Server") + "/berichte.php?t=1&opt=AAABAAIAAwA=");
 
-        for (int i = 0; i < 1; i++) {
-            driver.findElement(By.xpath("//*[@id=\"overview\"]/tbody/tr[1]/td[2]/div[1]/a")).click();
-            for (int j = 1; j <= 10; j++) {
-                //Primero determino si el informe pertenece a una vaca de mi lista y que exista
-                tropasInt = 0;
-                perdidasInt = 0;
-                prisionerosInt = 0;
-                if (!driver.findElements(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).isEmpty()) {
-                    vaca.setZ(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
-                    if (vacas.contains(vaca)) {
+        driver.findElement(By.xpath("//*[@id=\"overview\"]/tbody/tr[1]/td[2]/div[1]/a")).click();
+        for (int j = 1; j <= 50; j++) {
+            //Primero determino si el informe pertenece a una vaca de mi lista y que exista
+            tropasInt = 0;
+            perdidasInt = 0;
+            prisionerosInt = 0;
 
-                        informe.setId(driver.getCurrentUrl().split("=")[1]);
-                        informe.setAsunto(driver.findElement(By.xpath("//*[@id=\"subject\"]/div[2]")).getText());
-                        informe.setFecha(driver.findElement(By.xpath("//*[@id=\"time\"]/div[2]")).getText().split(",")[0]);
-                        informe.setHora(driver.findElement(By.xpath("//*[@id=\"time\"]/div[2]")).getText().split(",")[1]);
-                        informe.setZ_aldea_atacante(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"attacker\"]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
-                        informe.setZ_aldea_defensora(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
+            if (!driver.findElements(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).isEmpty()) {
+                vaca.setZ(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
+                if (vacas.contains(vaca)) {
+                    if (lastInforme.equals(driver.getCurrentUrl().split("=")[1])) {
+                        break;
+                    }
 
-                        //obtengo tropas, perdidas y si hay prisioneros.
-                        tropas = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[2]/tr")).findElements(By.tagName("td")).toArray();
-                        //tropas = driver.findElements(By.className("units")).get(1).findElements(By.tagName("td")).toArray();
+                    informe.setId(driver.getCurrentUrl().split("=")[1]);
+                    informe.setAsunto(driver.findElement(By.xpath("//*[@id=\"subject\"]/div[2]")).getText());
+                    informe.setFecha(driver.findElement(By.xpath("//*[@id=\"time\"]/div[2]")).getText().split(",")[0]);
+                    informe.setHora(driver.findElement(By.xpath("//*[@id=\"time\"]/div[2]")).getText().split(",")[1]);
+                    informe.setZ_aldea_atacante(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"attacker\"]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
+                    informe.setZ_aldea_defensora(Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"message\"]/table[2]/thead/tr/td[2]/p/a[2]")).getAttribute("href").split("=")[1]));
 
-                        perdidas = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[3]/tr")).findElements(By.tagName("td")).toArray();
-                        //perdidas = driver.findElements(By.className("units last")).get(0).findElements(By.tagName("td")).toArray();
-                        if (!driver.findElements(By.xpath("//*[@id=\"attacker\"]/tbody[4]/tr")).isEmpty()) {
-                            prisioneros = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[4]/tr")).findElements(By.tagName("td")).toArray();
-                        }
-                        for (int k = 0; k < tropas.length; k++) {
-                            tropasInt += Integer.parseInt(((WebElement) tropas[k]).getText());
-                            perdidasInt += Integer.parseInt(((WebElement) perdidas[k]).getText());
-                            if (prisioneros.length != 1) {
-                                prisionerosInt += Integer.parseInt(((WebElement) prisioneros[k]).getText());
-                            }
-                        }
-                        informe.setPerdidas((100 * (perdidasInt + prisionerosInt)) / tropasInt);
+                    //obtengo tropas, perdidas y si hay prisioneros.
+                    tropas = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[2]/tr")).findElements(By.tagName("td")).toArray();
+                    //tropas = driver.findElements(By.className("units")).get(1).findElements(By.tagName("td")).toArray();
 
-                        //obtengo eficiencia si aplica sino es cero
-                        //si hay botin  hay clase "goods" sino hay goods no hay botin y la eficiencia es cero
-                        if (!driver.findElements(By.className("goods")).isEmpty()) {
-
-                            int posible = Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[5]/tr/td/div[3]")).getText().split("/")[1].replaceAll("[^0-9]", ""));
-                            int obtenido = Integer.valueOf(driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[5]/tr/td/div[3]")).getText().split("/")[0].replaceAll("[^0-9]", ""));
-                            informe.setEficiencia((obtenido * 100) / posible);
-                        } else {
-                            informe.setEficiencia(0);
-
-                        }
-
-                        try {
-                            manager.getInformeVacaDAO().insertar(informe);
-                        } catch (DAOException ex) {
-                            Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
+                    perdidas = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[3]/tr")).findElements(By.tagName("td")).toArray();
+                    //perdidas = driver.findElements(By.className("units last")).get(0).findElements(By.tagName("td")).toArray();
+                    if (!driver.findElements(By.xpath("//*[@id=\"attacker\"]/tbody[4]/tr")).isEmpty()) {
+                        prisioneros = driver.findElement(By.xpath("//*[@id=\"attacker\"]/tbody[4]/tr")).findElements(By.tagName("td")).toArray();
+                    }
+                    for (int k = 0; k < tropas.length; k++) {
+                        tropasInt += Integer.parseInt(((WebElement) tropas[k]).getText());
+                        perdidasInt += Integer.parseInt(((WebElement) perdidas[k]).getText());
+                        if (prisioneros.length != 1) {
+                            prisionerosInt += Integer.parseInt(((WebElement) prisioneros[k]).getText());
                         }
                     }
+                    informe.setPerdidas((100 * (perdidasInt + prisionerosInt)) / tropasInt);
+
+                    //obtengo eficiencia si aplica sino es cero
+                    //si hay botin  hay clase "goods" sino hay goods no hay botin y la eficiencia es cero
+                    if (!driver.findElements(By.className("goods")).isEmpty()) {
+
+                        int posible = Integer.valueOf(driver.findElement(By.className("goods")).findElement(By.xpath("./tr/td/div[3]")).getText().split("/")[1].replaceAll("[^0-9]", ""));
+                        int obtenido = Integer.valueOf(driver.findElement(By.className("goods")).findElement(By.xpath("./tr/td/div[3]")).getText().split("/")[0].replaceAll("[^0-9]", ""));
+                        informe.setEficiencia((obtenido * 100) / posible);
+                    } else {
+                        informe.setEficiencia(0);
+
+                    }
+
+                    try {
+                        manager.getInformeVacaDAO().insertar(informe);
+                    } catch (DAOException ex) {
+                        Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-
-                //*[@id="content"]/div[2]/a[1]
-                driver.findElement(By.xpath("//*[@id=\"content\"]/div[2]/a[1]")).click();
             }
-            driver.get(config.GetPropertie("Server") + "/berichte.php?t=1");
 
-//            for (int l = 1; l <= 10; l++) {
-//                if (driver.findElement(By.xpath("//*[@id=\"overview\"]/tbody/tr[" + i + "]/td[2]/a[1]/img")).getAttribute("class").equals("messageStatus messageStatusRead")) {
-//                    driver.findElement(By.xpath("//*[@id=\"overview\"]/tbody/tr[" + i + "]/td[1]/input")).click();
-//                }
-//            }
-//            //*[@id="reportsForm"]/div[2]/div[2]/a[3]
-//            driver.findElement(By.xpath("//*[@id=\"del\"]/div/div[2]")).click();
-//            //driver.findElement(By.xpath("//*[@id=\"reportsForm\"]/div[1]/div[2]/a[3]/img")).click();
+            //pasa al informe anterior
+            driver.findElement(By.xpath("//*[@id=\"content\"]/div[2]/a[1]")).click();
         }
+        //finalmente leido y guardado todo vuelve a la vista geneal
+        driver.get(config.GetPropertie("Server") + "/dorf1.php");
 
     }
-    // </editor-fold>
 
-    public static void getEficienciaVaca(WebDriver driver, Vaca v) {
+    public static void obtenerInactivos(WebDriver driver, int x, int y) {
+        Config config = new Config();
+
+        ((JavascriptExecutor) driver).executeScript("window.open();");
+        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.get("http://www.inactivesearch.it/es/inactives/" + config.GetPropertie("Server").split("/")[2] + "?c=" + x + "|" + y + "&page=1");
+        int paginas = Integer.parseInt(driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[1]/form/ul/li[5]/span")).getText().split("/")[1]);
+        for (int i = 1; i <= paginas; i++) {
+            List<WebElement> filas = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[3]/div/table/tbody")).findElements(By.tagName("tr"));
+            for (WebElement fila : filas) {
+                //asignacion a ListaVacas
+                System.out.print(fila.findElement(By.xpath("./td[2]")).getText() + "*");
+                System.out.println(fila.findElement(By.xpath("./td[3]")).getText());
+            }
+            driver.get("http://www.inactivesearch.it/es/inactives/ts1.travian.cl?c=27|-21&page=" + (i + 1));
+
+        }
+        ((JavascriptExecutor) driver).executeScript("window.close();");
+        driver.switchTo().window(tabs.get(0));
 
     }
 

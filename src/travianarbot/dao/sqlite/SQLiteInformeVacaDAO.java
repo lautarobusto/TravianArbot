@@ -16,6 +16,7 @@ public class SQLiteInformeVacaDAO implements InformeVacaDAO {
     final String DELETE = "DELETE FROM InformesVacas WHERE ID = ?";
     final String GETALL = "SELECT * FROM InformesVacas";
     final String GETALLBYVACA = "SELECT * FROM InformesVacas WHERE Z_Aldea_Defensora = ?";
+    final String GETLAST = "select ID from InformesVacas order by Fecha and Hora limit 1";
     private Connection conn;
 
     public SQLiteInformeVacaDAO(Connection conn) {
@@ -97,5 +98,30 @@ public class SQLiteInformeVacaDAO implements InformeVacaDAO {
     @Override
     public InformeVaca obtener(String id) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String obtenerUltimo() throws DAOException {
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+
+        try {
+            rst = conn.prepareStatement(GETLAST).executeQuery();
+
+            if (rst.next()) {
+
+                return rst.getString(1);
+            } else {
+                return null;
+                //throw new DAOException("No hay cuenta con ese id");
+
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error SQL", e);
+        } finally {
+            SQLiteUtils.cerrar(pst, rst);
+        }
+
     }
 }
