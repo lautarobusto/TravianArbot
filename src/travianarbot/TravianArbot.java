@@ -1,69 +1,51 @@
 package travianarbot;
 
+import travianarbot.gui.TravianArbotInterfaz;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import travianarbot.gui.TravianArbotGui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import javax.swing.*;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
+import org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel;
 import travianarbot.dao.DAOException;
 import travianarbot.dao.sqlite.SQLiteManagerDAO;
-import travianarbot.modelo.Aldea;
-import travianarbot.modelo.Armada;
-import travianarbot.modelo.Cuenta;
-import travianarbot.modelo.InformeVaca;
-import travianarbot.modelo.Vaca;
+import travianarbot.modelo.*;
 
 public class TravianArbot {
 
     private static SQLiteManagerDAO manager;
+
     private static int[] currentTroops = new int[11];
 
     public static void main(String[] args) throws SQLException, DAOException {
         //Inicializo archivo config
         Config con = new Config();
         con.inicializar();
-//        JFrame.setDefaultLookAndFeelDecorated(true);
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    UIManager.setLookAndFeel(new SubstanceGraphiteLookAndFeel());
-//                } catch (Exception e) {
-//                    System.out.println("Substance Graphite failed to initialize");
-//                }
-//
-//                try {
-//                    TravianArbotGui frm;
-//                    frm = new TravianArbotGui();
-//                    frm.setVisible(true);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (DAOException ex) {
-//                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//
-//            }
-//        });
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
 
-        TravianArbotGui frm;
-        frm = new TravianArbotGui();
-        frm.setVisible(true);
+                    UIManager.setLookAndFeel(new SubstanceCeruleanLookAndFeel());
+                    //UIManager.setLookAndFeel(new SubstanceDustCoffeeLookAndFeel());
+                } catch (Exception e) {
+                    System.out.println("Substance Graphite failed to initialize");
+                }
+
+                TravianArbotInterfaz frm;
+                frm = new TravianArbotInterfaz();
+                frm.setVisible(true);
+
+            }
+        });
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" ${InicializarWebBrowser} ">
     public static void InicializarWebBrowser(WebDriver driver, Cuenta cuenta) {
 
         driver.get(cuenta.getServidor());
@@ -73,8 +55,6 @@ public class TravianArbot {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("heroImageButton")));
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc=" ${getCurrentTroops} ">
     public static void getCurrentTroops(WebDriver driver) {
         Config config = new Config();
 
@@ -89,139 +69,11 @@ public class TravianArbot {
         }
 
     }
-    // <editor-fold defaultstate="collapsed" desc=" ${ObtenerAldeasLookNFeel} ">
-//    public static void getAldeas(WebDriver driver) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    Aldea aldea = new Aldea();
-//                    List<Aldea> aldeasDetectadas = new ArrayList<>();
-//                    List<WebElement> aldeasMetadata = new ArrayList<>();//Contiene WebElements <a> que contiene ID nombre y coords
-//                    List<WebElement> li = new ArrayList<>();
-//                    manager = new SQLiteManagerDAO();
-//                    List<Aldea> aldeasAlmacenadas = manager.getAldeaDAO().obtenerTodos();
-//
-//                    Config config = new Config();
-//                    driver.get(config.GetPropertie("Server") + "/dorf1.php");
-//
-//                    //Armado de Lista AldeasDetectadas sin Terreno
-//                    //----------------------------------------------------------------------------------------------------------------------
-//                    li = driver.findElement(By.xpath("//*[@id=\"sidebarBoxVillagelist\"]/div[2]/div[2]/ul")).findElements(By.tagName("li"));
-//                    for (WebElement element : li) {
-//                        aldeasMetadata.add(element.findElement(By.tagName("a")));
-//                    }
-//                    for (WebElement e : aldeasMetadata) {
-//                        //Obtengo Id de la aldea
-//                        aldea = new Aldea();
-//                        String[] split = e.getAttribute("href").split("=");
-//                        aldea.setId_aldea(Integer.valueOf(split[1].replaceAll("[^0-9]", "")));
-//                        //Nombre de aldea
-//                        aldea.setNombre_aldea(e.findElement(By.tagName("div")).getText());
-//                        //Coordenadas de aldea
-//                        Object[] coords = e.findElement(By.tagName("span")).findElements(By.tagName("span")).toArray();
-//                        aldea.setCoordenada_x(Integer.valueOf(((WebElement) coords[0]).getText().replaceAll("[^0-9-]", "")));
-//                        aldea.setCoordenada_y(Integer.valueOf(((WebElement) coords[2]).getText().replaceAll("[^0-9-]", "")));
-//                        aldeasDetectadas.add(aldea);
-//                    }
-//                    //FinalArmado de Lista AldeasDetectadas sin Terreno
-//                    //----------------------------------------------------------------------------------------------------------------------
-//                    Collections.sort(aldeasDetectadas, new Aldea.CompId());
-//                    Collections.sort(aldeasAlmacenadas, new Aldea.CompId());
-//
-//                    if (!aldeasAlmacenadas.equals(aldeasDetectadas)) {
-//                        int resp = JOptionPane.showConfirmDialog(null, "Hay cambios en la lista de aldeas. Desea actualizarla?");
-//                        if (JOptionPane.OK_OPTION == resp) {
-//                            for (Aldea a : aldeasDetectadas) {
-//                                if (!aldeasAlmacenadas.contains(a)) {
-//                                    aldeasAlmacenadas.add(a);
-//                                }
-//                            }
-//                            List<Aldea> aux = new ArrayList<>(aldeasAlmacenadas);
-//                            for (Aldea a : aux) {
-//                                if (!aldeasDetectadas.contains(a)) {
-//                                    aldeasAlmacenadas.remove(a);
-//                                }
-//                            }
-//                            //Obtencion de terreno de Aldeas nuevas y Seteo de Id Cuenta
-//                            //----------------------------------------------------------------------------------------------------------------------
-//                            for (Aldea e : aldeasAlmacenadas) {
-//                                Cuenta cuenta = new Cuenta();
-//
-//                                if (e.getTipo_terreno() == null) {
-//                                    try {
-//
-//                                        cuenta = manager.getCuentaDAO().obtener(config.GetPropertie("Server"));
-//
-//                                    } catch (DAOException ex) {
-//                                        Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-//                                    }
-//                                    driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + e.getId_aldea() + "&");
-//
-//                                    Object[] farms = driver.findElement(By.xpath("//*[@id=\"village_map\"]")).findElements(By.tagName("div")).toArray();
-//                                    int a = 0;
-//                                    int[] builds = new int[18];
-//                                    for (int i = 0; i < farms.length; i += 2) {
-//                                        String[] srt = ((WebElement) farms[i]).getAttribute("class").split(" ");
-//                                        if (srt.length == 6) {
-//                                            builds[a] = Integer.parseInt(srt[4].replaceAll("[^0-9]", ""));
-//                                            a++;
-//                                        } else {
-//                                            builds[a] = Integer.parseInt(srt[3].replaceAll("[^0-9]", ""));
-//                                            a++;
-//                                        }
-//                                    }
-//                                    int[] terreno = new int[4];
-//                                    for (int i = 0; i < 18; i++) {
-//                                        if (builds[i] == 1) {
-//                                            terreno[0]++;
-//                                        }
-//                                        if (builds[i] == 2) {
-//                                            terreno[1]++;
-//                                        }
-//                                        if (builds[i] == 3) {
-//                                            terreno[2]++;
-//                                        }
-//                                        if (builds[i] == 4) {
-//                                            terreno[3]++;
-//                                        }
-//
-//                                    }
-//                                    String str = "";
-//                                    for (int i = 0; i < terreno.length; i++) {
-//                                        str += String.valueOf(terreno[i]);
-//                                    }
-//                                    e.setTipo_terreno(str);
-//                                    e.setId_cuenta(cuenta.getId());
-//                                    e.setZ(320801 + e.getCoordenada_x() - (e.getCoordenada_y() * 801));
-//
-//                                }
-//
-//                            }
-//                            //Fin Obtencion de terreno de Aldeas nuevas
-//                            //----------------------------------------------------------------------------------------------------------------------
-//
-//                        } else {
-//                            JOptionPane.showMessageDialog(null, "Recuerde que es necesario matener la lista de aldeas actualizada.\n"
-//                                    + "Puede actualizarla manualmente en el menu Herramientas o se le volvera\n"
-//                                    + "a consulta en el proximo inicio");
-//                        }
-//
-//                    }
-//                    manager.getAldeaDAO().insertarBatch(aldeasAlmacenadas);
-//                    manager.closeConection();
-//                } catch (DAOException ex) {
-//                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//
-//        });
-//
-//    }
-// </editor-fold>
 
     public static void getAldeas(WebDriver driver) {
+        /*Hice una modificacion con el joptionpane, al ejecutarse este metodo dentro de un thread en background
+        habia problemas con el Sebstance LookNfeel, asqieue lo meti dentro de un invoker para pasarlo al hilo de swing, creo segun lei 
+        **/
         try {
             Aldea aldea = new Aldea();
             List<Aldea> aldeasDetectadas = new ArrayList<>();
@@ -258,84 +110,83 @@ public class TravianArbot {
             Collections.sort(aldeasAlmacenadas, new Aldea.CompId());
 
             if (!aldeasAlmacenadas.equals(aldeasDetectadas)) {
-                int resp = JOptionPane.showConfirmDialog(null, "Hay cambios en la lista de aldeas. Desea actualizarla?");
-                if (JOptionPane.OK_OPTION == resp) {
-                    for (Aldea a : aldeasDetectadas) {
-                        if (!aldeasAlmacenadas.contains(a)) {
-                            aldeasAlmacenadas.add(a);
-                        }
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        JOptionPane.showMessageDialog(null, "Hay cambios en la lista de aldeas. Se procedera con la actualizacion");
                     }
-                    List<Aldea> aux = new ArrayList<>(aldeasAlmacenadas);
-                    for (Aldea a : aux) {
-                        if (!aldeasDetectadas.contains(a)) {
-                            aldeasAlmacenadas.remove(a);
-                        }
+                });
+
+                for (Aldea a : aldeasDetectadas) {
+                    if (!aldeasAlmacenadas.contains(a)) {
+                        aldeasAlmacenadas.add(a);
                     }
-                    //Obtencion de terreno de Aldeas nuevas y Seteo de Id Cuenta
-                    //----------------------------------------------------------------------------------------------------------------------
-                    for (Aldea e : aldeasAlmacenadas) {
-                        Cuenta cuenta = new Cuenta();
-
-                        if (e.getTipo_terreno() == null) {
-                            try {
-
-                                cuenta = manager.getCuentaDAO().obtener(config.GetPropertie("Server"));
-
-                            } catch (DAOException ex) {
-                                Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + e.getId_aldea() + "&");
-
-                            Object[] farms = driver.findElement(By.xpath("//*[@id=\"village_map\"]")).findElements(By.tagName("div")).toArray();
-                            int a = 0;
-                            int[] builds = new int[18];
-                            for (int i = 0; i < farms.length; i += 2) {
-                                String[] srt = ((WebElement) farms[i]).getAttribute("class").split(" ");
-                                if (srt.length == 6) {
-                                    builds[a] = Integer.parseInt(srt[4].replaceAll("[^0-9]", ""));
-                                    a++;
-                                } else {
-                                    builds[a] = Integer.parseInt(srt[3].replaceAll("[^0-9]", ""));
-                                    a++;
-                                }
-                            }
-                            int[] terreno = new int[4];
-                            for (int i = 0; i < 18; i++) {
-                                if (builds[i] == 1) {
-                                    terreno[0]++;
-                                }
-                                if (builds[i] == 2) {
-                                    terreno[1]++;
-                                }
-                                if (builds[i] == 3) {
-                                    terreno[2]++;
-                                }
-                                if (builds[i] == 4) {
-                                    terreno[3]++;
-                                }
-
-                            }
-                            String str = "";
-                            for (int i = 0; i < terreno.length; i++) {
-                                str += String.valueOf(terreno[i]);
-                            }
-                            e.setTipo_terreno(str);
-                            e.setId_cuenta(cuenta.getId());
-                            e.setZ(320801 + e.getCoordenada_x() - (e.getCoordenada_y() * 801));
-
-                        }
-
-                    }
-                    //Fin Obtencion de terreno de Aldeas nuevas
-                    //----------------------------------------------------------------------------------------------------------------------
-
-                    manager.getAldeaDAO().insertarBatch(aldeasAlmacenadas);
-                    manager.closeConection();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Recuerde que es necesario matener la lista de aldeas actualizada.\n"
-                            + "Puede actualizarla manualmente en el menu Herramientas o se le volvera\n"
-                            + "a consulta en el proximo inicio");
                 }
+                List<Aldea> aux = new ArrayList<>(aldeasAlmacenadas);
+                for (Aldea a : aux) {
+                    if (!aldeasDetectadas.contains(a)) {
+                        aldeasAlmacenadas.remove(a);
+                    }
+                }
+                //Obtencion de terreno de Aldeas nuevas y Seteo de Id Cuenta
+                //----------------------------------------------------------------------------------------------------------------------
+                for (Aldea e : aldeasAlmacenadas) {
+                    Cuenta cuenta = new Cuenta();
+
+                    if (e.getTipo_terreno() == null) {
+                        try {
+
+                            cuenta = manager.getCuentaDAO().obtener(config.GetPropertie("Server"));
+
+                        } catch (DAOException ex) {
+                            Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        driver.get(config.GetPropertie("Server") + "/dorf1.php?newdid=" + e.getId_aldea() + "&");
+
+                        Object[] farms = driver.findElement(By.xpath("//*[@id=\"village_map\"]")).findElements(By.tagName("div")).toArray();
+                        int a = 0;
+                        int[] builds = new int[18];
+                        for (int i = 0; i < farms.length; i += 2) {
+                            String[] srt = ((WebElement) farms[i]).getAttribute("class").split(" ");
+                            if (srt.length == 6) {
+                                builds[a] = Integer.parseInt(srt[4].replaceAll("[^0-9]", ""));
+                                a++;
+                            } else {
+                                builds[a] = Integer.parseInt(srt[3].replaceAll("[^0-9]", ""));
+                                a++;
+                            }
+                        }
+                        int[] terreno = new int[4];
+                        for (int i = 0; i < 18; i++) {
+                            if (builds[i] == 1) {
+                                terreno[0]++;
+                            }
+                            if (builds[i] == 2) {
+                                terreno[1]++;
+                            }
+                            if (builds[i] == 3) {
+                                terreno[2]++;
+                            }
+                            if (builds[i] == 4) {
+                                terreno[3]++;
+                            }
+
+                        }
+                        String str = "";
+                        for (int i = 0; i < terreno.length; i++) {
+                            str += String.valueOf(terreno[i]);
+                        }
+                        e.setTipo_terreno(str);
+                        e.setId_cuenta(cuenta.getId());
+                        e.setZ(320801 + e.getCoordenada_x() - (e.getCoordenada_y() * 801));
+
+                    }
+
+                }
+                //Fin Obtencion de terreno de Aldeas nuevas
+                //----------------------------------------------------------------------------------------------------------------------
+
+                manager.getAldeaDAO().insertarBatch(aldeasAlmacenadas);
+                manager.closeConection();
 
             }
 
@@ -347,7 +198,6 @@ public class TravianArbot {
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" ${getAldeaActica} ">
     public static int getAldeaActica(WebDriver driver) {
         Config config = new Config();
         int id = 0;
@@ -362,7 +212,6 @@ public class TravianArbot {
         }
         return id;
     }
-    // </editor-fold>
 
     public static List<Vaca> enviarVaca(WebDriver driver, List<Vaca> vacasActivas, boolean continuo) {
         if (vacasActivas.isEmpty()) {

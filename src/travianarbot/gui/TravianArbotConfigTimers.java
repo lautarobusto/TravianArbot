@@ -11,7 +11,7 @@ public class TravianArbotConfigTimers extends javax.swing.JFrame {
 
     }
 
-    TravianArbotConfigTimers(TravianArbotGui aThis) {
+    TravianArbotConfigTimers(TravianArbotGuiDep aThis) {
         frm = aThis;
         frm.setEnabled(false);
         initComponents();

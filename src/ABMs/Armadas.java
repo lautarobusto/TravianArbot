@@ -13,7 +13,7 @@ import travianarbot.Config;
 import travianarbot.dao.DAOException;
 import travianarbot.dao.ManagerDAO;
 import travianarbot.dao.sqlite.SQLiteManagerDAO;
-import travianarbot.gui.TravianArbotGui;
+import travianarbot.gui.TravianArbotGuiDep;
 import travianarbot.modelo.Armada;
 import travianarbot.modelo.Tropa;
 
@@ -25,7 +25,7 @@ public class Armadas extends javax.swing.JFrame {
     private Armada armada;
     private List<Tropa> tropas = new ArrayList<>();
 
-    public Armadas(TravianArbotGui aThis, ManagerDAO manager) throws DAOException {
+    public Armadas(TravianArbotGuiDep aThis, ManagerDAO manager) throws DAOException {
         initComponents();
         setIcons();
         frm = aThis;

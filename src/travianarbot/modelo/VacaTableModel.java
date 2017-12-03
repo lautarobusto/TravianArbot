@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -59,7 +60,7 @@ public class VacaTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 11;
+        return 10;
     }
 
     @Override
@@ -94,9 +95,10 @@ public class VacaTableModel extends AbstractTableModel {
     }
 
     public void resizeColumnWidth(JTable table) {
+       table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         final TableColumnModel columnModel = table.getColumnModel();
         for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
+            int width = 60; // Min width
             for (int row = 0; row < table.getRowCount(); row++) {
                 TableCellRenderer renderer = table.getCellRenderer(row, column);
                 Component comp = table.prepareRenderer(renderer, row, column);

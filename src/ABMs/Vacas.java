@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 import travianarbot.dao.DAOException;
 import travianarbot.dao.ManagerDAO;
 import travianarbot.dao.sqlite.SQLiteManagerDAO;
-import travianarbot.gui.TravianArbotGui;
+import travianarbot.gui.TravianArbotGuiDep;
 import travianarbot.modelo.Aldea;
 import travianarbot.modelo.Armada;
 import travianarbot.modelo.Vaca;
@@ -32,7 +32,7 @@ public class Vacas extends javax.swing.JFrame {
     private List<Armada> armadasList = new ArrayList<Armada>();
     private Vaca vaca = new Vaca();
     
-    public Vacas(TravianArbotGui aThis, ManagerDAO manager) throws DAOException {
+    public Vacas(TravianArbotGuiDep aThis, ManagerDAO manager) throws DAOException {
         initComponents();
         
         frm = aThis;
@@ -425,11 +425,15 @@ public class Vacas extends javax.swing.JFrame {
         jPanel2.add(nombreVaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 140, -1));
 
         tipoMovimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Refuerzo", "Ataque", "Asalto" }));
-        tipoMovimiento.setSelectedIndex(2);
         tipoMovimiento.setToolTipText("");
         tipoMovimiento.setMaximumSize(new java.awt.Dimension(100, 25));
         tipoMovimiento.setMinimumSize(new java.awt.Dimension(100, 25));
         tipoMovimiento.setPreferredSize(new java.awt.Dimension(100, 25));
+        tipoMovimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoMovimientoActionPerformed(evt);
+            }
+        });
         jPanel2.add(tipoMovimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 140, -1));
 
         aldeaOrigen.setMinimumSize(new java.awt.Dimension(100, 25));
@@ -476,7 +480,6 @@ public class Vacas extends javax.swing.JFrame {
         jLabel25.setPreferredSize(new java.awt.Dimension(75, 25));
         jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, -1));
 
-        addArmada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-1.png"))); // NOI18N
         addArmada.setMaximumSize(new java.awt.Dimension(54, 25));
         addArmada.setMinimumSize(new java.awt.Dimension(54, 25));
         addArmada.setPreferredSize(new java.awt.Dimension(54, 25));
@@ -625,7 +628,6 @@ public class Vacas extends javax.swing.JFrame {
         jLabel32.setMinimumSize(new java.awt.Dimension(110, 20));
         jLabel32.setPreferredSize(new java.awt.Dimension(75, 25));
 
-        addArmada1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit-1.png"))); // NOI18N
         addArmada1.setMaximumSize(new java.awt.Dimension(54, 25));
         addArmada1.setMinimumSize(new java.awt.Dimension(54, 25));
         addArmada1.setPreferredSize(new java.awt.Dimension(54, 25));
@@ -688,7 +690,7 @@ public class Vacas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1)
                     .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
@@ -715,7 +717,7 @@ public class Vacas extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         frm.setEnabled(true);
         frm.toFront();
-        ((TravianArbotGui) frm).updateVacasActivasList();
+        ((TravianArbotGuiDep) frm).updateVacasActivasList();
     }//GEN-LAST:event_formWindowClosed
 
     private void borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarActionPerformed
@@ -872,9 +874,9 @@ public class Vacas extends javax.swing.JFrame {
             //            manager.closeConection();
 
         } catch (DAOException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TravianArbotGuiDep.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(TravianArbotGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TravianArbotGuiDep.class.getName()).log(Level.SEVERE, null, ex);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_addArmadaActionPerformed
 
@@ -897,6 +899,10 @@ public class Vacas extends javax.swing.JFrame {
     private void armadas1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_armadas1ItemStateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_armadas1ItemStateChanged
+
+    private void tipoMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoMovimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoMovimientoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
