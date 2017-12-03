@@ -23,6 +23,7 @@ public class SQLiteVacaDAO implements VacaDAO {
     final String GETALL = "SELECT * FROM Vacas";
     //final String GETALL = "select Vacas.ID, Vacas.Nombre,Aldeas.Nombre,ID_Movimiento,Armadas.Nombre,Vacas.Coordenada_X,Vacas.Coordenada_Y,Activo,Vacas.Z \n"
      //       + "from Vacas,Aldeas,Armadas  where Aldeas.ID=Vacas.ID_Aldea_Origen and Vacas.ID_Armada=Armadas.ID";
+    
     final String GETONE = "SELECT * FROM Vacas WHERE ID = ?";
     final String GETACTIVE = "SELECT * FROM Vacas WHERE Activo = ?";
     final String GETEXIST = "SELECT * FROM Vacas WHERE Z = ?";
