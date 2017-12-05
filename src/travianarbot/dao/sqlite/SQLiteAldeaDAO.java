@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import travianarbot.dao.AldeaDAO;
 import travianarbot.dao.DAOException;
 import travianarbot.modelo.Aldea;
-import travianarbot.modelo.Cuenta;
 
 public class SQLiteAldeaDAO implements AldeaDAO {
 
@@ -20,6 +19,8 @@ public class SQLiteAldeaDAO implements AldeaDAO {
     final String DELETE = "DELETE FROM Cuentas WHERE ID = ?";
     final String GETALL = "SELECT * FROM Aldeas";
     final String GETONE = "SELECT * FROM Aldeas WHERE ID = ?";
+    final String GETRST = "Select ID, Nombre as 'Nombre de Aldea', Tipo_Terreno as 'Tipo de Aldea',Coordenada_X as 'Coord X', Coordenada_Y as 'Coord Y', Z from Aldeas";
+
     private Connection conn;
 
     public SQLiteAldeaDAO(Connection conn) {
@@ -147,13 +148,26 @@ public class SQLiteAldeaDAO implements AldeaDAO {
     }
 
     @Override
-    public ResultSet obtenerTodosrst() throws DAOException {
+    public List<Aldea> obtenerTodosCondicion(Integer valor) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Aldea> obtenerTodosCondicion(Integer valor) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ResultSet obtenerTodosrst() throws DAOException {
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            pst = conn.prepareStatement(GETRST);
+            rst = pst.executeQuery();
+
+            if (rst.next()) {
+                return rst;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error SQL", e);
+        }
+        return null;
     }
 
 }

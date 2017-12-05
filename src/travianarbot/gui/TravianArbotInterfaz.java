@@ -2,7 +2,6 @@ package travianarbot.gui;
 
 import ABMs.Vacas;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Timer;
@@ -10,11 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -24,17 +21,14 @@ import travianarbot.dao.DAOException;
 import travianarbot.dao.ManagerDAO;
 import travianarbot.dao.sqlite.SQLiteManagerDAO;
 import travianarbot.modelo.Aldea;
-import travianarbot.modelo.AldeasTableModel;
 import travianarbot.modelo.Armada;
 import travianarbot.modelo.Cuenta;
+import travianarbot.modelo.ModeloTablaAldea;
+import travianarbot.modelo.ModeloTablaVaca;
 import travianarbot.modelo.Vaca;
-import travianarbot.modelo.VacaTableModel;
 
 public class TravianArbotInterfaz extends javax.swing.JFrame {
 
-    private ManagerDAO manager;
-    private AldeasTableModel modelAldeas;
-    private VacaTableModel modelVacas;
     private WebDriver driver;
     private List<Vaca> vacasActivas;
     private DefaultListModel lm;
@@ -48,13 +42,15 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
     }
 
     private void inicializarComponentes() {
+        inicializarMisListners();
         fillCuentaComponents();
-        updateTablaAldeas();
+        inicializarTablaAldeas();
         resetBotonesABM();
         inicializarTablaVacas();
         setBasicoEditable(false);
         setComboAldeas();
         setComboArmadas();
+
         // updateVacasActivasList();
     }
 
@@ -89,18 +85,13 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
     }
 
     private void inicializarTablaVacas() {
-        this.manager = manager;
-        this.modelVacas = new VacaTableModel(manager.getVacaDAO());
-        try {
-            this.modelVacas.updateModel();
-        } catch (DAOException ex) {
-            Logger.getLogger(TravianArbotInterfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.TablaVacas.setModel(modelVacas);
-        this.TablaVacas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        this.modelVacas.resizeColumnWidth(TablaVacas);
-        this.TablaVacas.setAutoResizeMode(TablaVacas.AUTO_RESIZE_ALL_COLUMNS);
-        this.TablaVacas.getTableHeader().setReorderingAllowed(false);
+        ModeloTablaVaca modeloTablaVaca = new ModeloTablaVaca();
+        modeloTablaVaca.setTableModel(TablaVacas, LabelAvisoBasico);
+
+    }
+
+    private void inicializarMisListners() {
+
         this.TablaVacas.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             if (!e.getValueIsAdjusting()) {
                 boolean seleccionValida = (TablaVacas.getSelectedRow() != -1);
@@ -125,24 +116,10 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
 
     }
 
-    public void updateTablaAldeas() {
-        try {
-            this.manager = new SQLiteManagerDAO();
-            this.modelAldeas = new AldeasTableModel(manager.getAldeaDAO());
-            this.modelAldeas.updateModel();
-            this.TablaAldeas.setModel(modelAldeas);
-            this.TablaAldeas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            this.modelAldeas.resizeColumnWidth(TablaAldeas);
-            this.TablaAldeas.getTableHeader().setReorderingAllowed(false);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(TravianArbotGuiDep.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (DAOException ex) {
-            Logger.getLogger(TravianArbotGuiDep.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+    public void inicializarTablaAldeas() {
+        ModeloTablaAldea modeloTablaAldea = new ModeloTablaAldea();
+        modeloTablaAldea.setTableModel(TablaAldeas);
+        System.out.println(TablaAldeas.getRowCount());
 
     }
 
@@ -169,7 +146,12 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
     }
 
     public void setComboArmadas() {
-
+        ManagerDAO manager = null;
+        try {
+            manager = new SQLiteManagerDAO();
+        } catch (SQLException ex) {
+            Logger.getLogger(TravianArbotInterfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             List<Armada> listaArmadas = manager.getArmadaDAO().obtenerTodos();
 
@@ -182,26 +164,30 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         } catch (DAOException ex) {
             Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        manager.closeConection();
     }
 
     public void setComboAldeas() {
-
+        ManagerDAO manager = null;
         try {
+            manager = new SQLiteManagerDAO();
             List<Aldea> listaAldeas = manager.getAldeaDAO().obtenerTodos();
+            ComboAldeaOrigenBasico.removeAllItems();
             for (Aldea item : listaAldeas) {
                 ComboAldeaOrigenBasico.addItem(item.getNombre_aldea());
             }
         } catch (DAOException ex) {
             Logger.getLogger(Vacas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TravianArbotInterfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        manager.closeConection();
     }
 
     private void getVacaSelected() throws DAOException, SQLException {
-        manager = new SQLiteManagerDAO();
-        int id = (int) TablaVacas.getValueAt(TablaVacas.getSelectedRow(), 0);
-        this.vaca = manager.getVacaDAO().obtener(id);
+//        manager = new SQLiteManagerDAO();
+//        int id = (int) TablaVacas.getValueAt(TablaVacas.getSelectedRow(), 0);
+//        this.vaca = manager.getVacaDAO().obtener(id);
 
     }
 
@@ -276,6 +262,7 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         BotonGuardarBasico = new javax.swing.JButton();
         BotonBorrarBasico = new javax.swing.JButton();
         BotonCancelarBasico = new javax.swing.JButton();
+        LabelAvisoBasico = new javax.swing.JLabel();
         PanelControlesBasico = new javax.swing.JPanel();
         LabelNombreVaca = new javax.swing.JLabel();
         TextFieldNombreVacaBasico = new javax.swing.JTextField();
@@ -343,7 +330,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.setPreferredSize(new java.awt.Dimension(200, 167));
         Cuenta.setLayout(null);
 
-        LabelServidor.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelServidor.setText("Servidor");
         LabelServidor.setAlignmentY(0.0F);
         LabelServidor.setFocusable(false);
@@ -353,13 +339,11 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(LabelServidor);
         LabelServidor.setBounds(17, 29, 110, 25);
 
-        TextFieldServidor.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         TextFieldServidor.setNextFocusableComponent(SpinnerXBasico);
         TextFieldServidor.setPreferredSize(new java.awt.Dimension(110, 25));
         Cuenta.add(TextFieldServidor);
         TextFieldServidor.setBounds(140, 30, 150, 25);
 
-        LabelNombreServidor.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelNombreServidor.setText("Nombre de Usuario");
         LabelNombreServidor.setAlignmentY(0.0F);
         LabelNombreServidor.setFocusable(false);
@@ -369,13 +353,11 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(LabelNombreServidor);
         LabelNombreServidor.setBounds(17, 60, 110, 25);
 
-        TextFieldNombreUsuario.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         TextFieldNombreUsuario.setNextFocusableComponent(SpinnerXBasico);
         TextFieldNombreUsuario.setPreferredSize(new java.awt.Dimension(110, 25));
         Cuenta.add(TextFieldNombreUsuario);
         TextFieldNombreUsuario.setBounds(139, 60, 150, 25);
 
-        LabelPassword.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelPassword.setText("Contraseña");
         LabelPassword.setAlignmentY(0.0F);
         LabelPassword.setFocusable(false);
@@ -385,7 +367,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(LabelPassword);
         LabelPassword.setBounds(17, 91, 110, 25);
 
-        Password.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         Password.setToolTipText("");
         Password.setMinimumSize(new java.awt.Dimension(110, 25));
         Password.setPreferredSize(new java.awt.Dimension(110, 25));
@@ -397,7 +378,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(Password);
         Password.setBounds(140, 90, 150, 25);
 
-        LabelRaza.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelRaza.setText("Raza");
         LabelRaza.setAlignmentY(0.0F);
         LabelRaza.setFocusable(false);
@@ -419,7 +399,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(ComboRaza);
         ComboRaza.setBounds(420, 30, 150, 25);
 
-        LabelNavegador.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelNavegador.setText("Navagador");
         LabelNavegador.setAlignmentY(0.0F);
         LabelNavegador.setFocusable(false);
@@ -441,7 +420,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(ComboNavegador);
         ComboNavegador.setBounds(420, 60, 150, 25);
 
-        LogoRaza.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LogoRaza.setAlignmentY(0.0F);
         LogoRaza.setFocusable(false);
         LogoRaza.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -475,7 +453,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         Cuenta.add(BotonIniciarSesion);
         BotonIniciarSesion.setBounds(140, 120, 150, 25);
 
-        LogoNavegador.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LogoNavegador.setAlignmentY(0.0F);
         LogoNavegador.setFocusable(false);
         LogoNavegador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -499,6 +476,14 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         jScrollPane1.setAutoscrolls(true);
         jScrollPane1.setHorizontalScrollBar(null);
 
+        TablaAldeas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         TablaAldeas.setPreferredSize(null);
         jScrollPane1.setViewportView(TablaAldeas);
 
@@ -585,7 +570,15 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         BotonCancelarBasico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Buttons/error.png"))); // NOI18N
         BotonCancelarBasico.setMinimumSize(new java.awt.Dimension(45, 45));
         BotonCancelarBasico.setPreferredSize(new java.awt.Dimension(45, 45));
+        BotonCancelarBasico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonCancelarBasicoActionPerformed(evt);
+            }
+        });
         PanelBotonesBasico.add(BotonCancelarBasico);
+
+        LabelAvisoBasico.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        PanelBotonesBasico.add(LabelAvisoBasico);
 
         Basico.add(PanelBotonesBasico, java.awt.BorderLayout.PAGE_START);
 
@@ -596,7 +589,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         PanelControlesLayout1.rowHeights = new int[] {0, 10, 0, 10, 0};
         PanelControlesBasico.setLayout(PanelControlesLayout1);
 
-        LabelNombreVaca.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelNombreVaca.setText("Nombre de Vaca");
         LabelNombreVaca.setAlignmentY(0.0F);
         LabelNombreVaca.setFocusable(false);
@@ -615,7 +607,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         PanelControlesBasico.add(TextFieldNombreVacaBasico, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel2.setText("Coordenada X");
         jLabel2.setAlignmentY(0.0F);
         jLabel2.setFocusable(false);
@@ -636,7 +627,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         PanelControlesBasico.add(SpinnerXBasico, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel3.setText("Coordenada Y");
         jLabel3.setAlignmentY(0.0F);
         jLabel3.setFocusable(false);
@@ -657,7 +647,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         PanelControlesBasico.add(SpinnerYBasico, gridBagConstraints);
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel4.setText("Aldea de Origen");
         jLabel4.setAlignmentY(0.0F);
         jLabel4.setFocusable(false);
@@ -677,7 +666,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         PanelControlesBasico.add(ComboAldeaOrigenBasico, gridBagConstraints);
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel5.setText("Tipo de Movimiento");
         jLabel5.setAlignmentY(0.0F);
         jLabel5.setFocusable(false);
@@ -699,7 +687,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         PanelControlesBasico.add(ComboTipoMovimientoBasico, gridBagConstraints);
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setText("Armada");
         jLabel6.setAlignmentY(0.0F);
         jLabel6.setFocusable(false);
@@ -774,7 +761,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         PanelControlesAvanzado.setMinimumSize(new java.awt.Dimension(0, 100));
         PanelControlesAvanzado.setLayout(new java.awt.GridBagLayout());
 
-        LabelNombreVaca1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         LabelNombreVaca1.setText("Nombre de Vaca");
         LabelNombreVaca1.setAlignmentY(0.0F);
         LabelNombreVaca1.setFocusable(false);
@@ -793,7 +779,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         PanelControlesAvanzado.add(TextFieldNombreVaca1, gridBagConstraints);
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel7.setText("Coordenada X");
         jLabel7.setAlignmentY(0.0F);
         jLabel7.setFocusable(false);
@@ -814,7 +799,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         PanelControlesAvanzado.add(SpinnerX1, gridBagConstraints);
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel8.setText("Coordenada Y");
         jLabel8.setAlignmentY(0.0F);
         jLabel8.setFocusable(false);
@@ -835,7 +819,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         PanelControlesAvanzado.add(SpinnerY1, gridBagConstraints);
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel9.setText("Aldea de Origen");
         jLabel9.setAlignmentY(0.0F);
         jLabel9.setFocusable(false);
@@ -855,7 +838,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         PanelControlesAvanzado.add(ComboAldeaOrigen1, gridBagConstraints);
 
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel10.setText("Tipo de Movimiento");
         jLabel10.setAlignmentY(0.0F);
         jLabel10.setFocusable(false);
@@ -875,7 +857,6 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         PanelControlesAvanzado.add(ComboTipoMovimiento1, gridBagConstraints);
 
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel11.setText("Armada");
         jLabel11.setAlignmentY(0.0F);
         jLabel11.setFocusable(false);
@@ -930,13 +911,10 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
 
         TablaVacas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         ScrollTablaVacas.setViewportView(TablaVacas);
@@ -1007,9 +985,11 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
             config.editPropertie("RecordarCredenciales", "");
         }
         try {
-            this.manager = new SQLiteManagerDAO();
-            if (this.manager.getCuentaDAO().obtener(cuenta.getServidor()) == null) {
-                this.manager.getCuentaDAO().insertar(cuenta);
+            ManagerDAO manager;
+            manager = new SQLiteManagerDAO();
+            if (manager.getCuentaDAO().obtener(cuenta.getServidor()) == null) {
+                manager.getCuentaDAO().insertar(cuenta);
+                manager.closeConection();
             }
 
         } catch (SQLException ex) {
@@ -1020,36 +1000,48 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
         if (ComboNavegador.getSelectedIndex() == 0) {
 
             driver = new FirefoxDriver();
-            new SwingWorker<Void, Void>() {
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
 
                     travianarbot.TravianArbot.InicializarWebBrowser(driver, cuenta);
                     TravianArbot.getAldeas(driver);
-                    updateTablaAldeas();
+                    inicializarTablaAldeas();
                     return null;
 
                 }
 
-            }.execute();
+                @Override
+                protected void done() {
+                    setComboAldeas();
+
+                }
+
+            };
+            worker.execute();
 
         }
         if (ComboNavegador.getSelectedIndex() == 1) {
             //System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
             driver = new ChromeDriver();
-            new SwingWorker<Void, Void>() {
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
 
                     travianarbot.TravianArbot.InicializarWebBrowser(driver, cuenta);
                     TravianArbot.getAldeas(driver);
-                    updateTablaAldeas();
-
+                    inicializarTablaAldeas();
                     return null;
 
                 }
 
-            }.execute();
+                @Override
+                protected void done() {
+                    setComboAldeas();
+                }
+
+            };
+            worker.execute();
 
         }
 
@@ -1129,6 +1121,10 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_BotonEditarBasicoActionPerformed
 
+    private void BotonCancelarBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCancelarBasicoActionPerformed
+        inicializarTablaVacas();
+    }//GEN-LAST:event_BotonCancelarBasicoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Actividad;
@@ -1167,6 +1163,7 @@ public class TravianArbotInterfaz extends javax.swing.JFrame {
     private javax.swing.JTabbedPane EdicionTabbed;
     private javax.swing.JPanel General;
     private javax.swing.JPanel Informacion;
+    private javax.swing.JLabel LabelAvisoBasico;
     private javax.swing.JLabel LabelNavegador;
     private javax.swing.JLabel LabelNombreServidor;
     private javax.swing.JLabel LabelNombreVaca;

@@ -94,8 +94,14 @@ public class VacaTableModel extends AbstractTableModel {
         }
     }
 
+    /*
+     this.TablaVacas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        this.TablaVacas.setAutoResizeMode(TablaVacas.AUTO_RESIZE_ALL_COLUMNS);
+        this.TablaVacas.getTableHeader().setReorderingAllowed(false);
+     */
     public void resizeColumnWidth(JTable table) {
-       table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.getTableHeader().setReorderingAllowed(false);
         final TableColumnModel columnModel = table.getColumnModel();
         for (int column = 0; column < table.getColumnCount(); column++) {
             int width = 60; // Min width

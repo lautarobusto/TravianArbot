@@ -38,4 +38,15 @@ public class SQLiteUtils {
         }
     }
 
+    static void cerrar(ResultSet rst) throws DAOException {
+
+        if (rst != null) {
+            try {
+                rst.close();
+            } catch (SQLException e) {
+                throw new DAOException("Error SQL", e);
+            }
+        }
+    }
+
 }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import travianarbot.dao.DAOException;
 import travianarbot.dao.VacaDAO;
 import travianarbot.modelo.Vaca;
@@ -16,14 +15,11 @@ import travianarbot.modelo.Vaca;
 public class SQLiteVacaDAO implements VacaDAO {
 
     final String INSERT = "Insert into Vacas (Nombre,ID_Aldea_Origen,ID_Movimiento,ID_Armada,Eficiencia,Coordenada_X,Coordenada_Y,Activo,Z) Values (?,?,?,?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE Vacas SET Nombre = ?, ID_Aldea_Origen = ?,ID_Movimiento = ?,ID_Armada = ?,Eficiencia = ?, Coordenada_X = ?, Coordenada_Y = ?,Activo= ?,Z= ?"
-            + " WHERE ID = ?";
+    final String UPDATE = "UPDATE Vacas SET Nombre = ?, ID_Aldea_Origen = ?,ID_Movimiento = ?,ID_Armada = ?,Eficiencia = ?, Coordenada_X = ?, Coordenada_Y = ?,Activo= ?,Z= ? WHERE ID = ?";
     final String UPDATEEFI = "UPDATE Vacas SET Eficiencia =? WHERE ID=?";
     final String DELETE = "DELETE FROM Vacas WHERE ID = ?";
     final String GETALL = "SELECT * FROM Vacas";
-    //final String GETALL = "select Vacas.ID, Vacas.Nombre,Aldeas.Nombre,ID_Movimiento,Armadas.Nombre,Vacas.Coordenada_X,Vacas.Coordenada_Y,Activo,Vacas.Z \n"
-     //       + "from Vacas,Aldeas,Armadas  where Aldeas.ID=Vacas.ID_Aldea_Origen and Vacas.ID_Armada=Armadas.ID";
-    
+    final String GETRST = "select Vacas.ID, Vacas.Nombre,Aldeas.Nombre as 'Aldea Origen',ID_Movimiento as 'Movimiento',Armadas.Nombre as 'Armada',Vacas.Coordenada_X as 'Coord X',Vacas.Coordenada_Y as 'Coord Y',Activo as 'Activa',Vacas.Z from Vacas,Aldeas,Armadas  where Aldeas.ID=Vacas.ID_Aldea_Origen and Vacas.ID_Armada=Armadas.ID";
     final String GETONE = "SELECT * FROM Vacas WHERE ID = ?";
     final String GETACTIVE = "SELECT * FROM Vacas WHERE Activo = ?";
     final String GETEXIST = "SELECT * FROM Vacas WHERE Z = ?";
@@ -153,7 +149,21 @@ public class SQLiteVacaDAO implements VacaDAO {
 
     @Override
     public ResultSet obtenerTodosrst() throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            pst = conn.prepareStatement(GETRST);
+            rst = pst.executeQuery();
+
+            if (rst.next()) {
+                return rst;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Error SQL", e);
+            
+        } 
+        return null;
     }
 
     @Override

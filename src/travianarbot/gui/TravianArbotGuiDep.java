@@ -2,9 +2,7 @@ package travianarbot.gui;
 
 import ABMs.Armadas;
 import ABMs.Vacas;
-import java.awt.Frame;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;

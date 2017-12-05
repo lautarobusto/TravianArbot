@@ -324,9 +324,7 @@ public class TravianArbot {
                 }
 
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DAOException ex) {
+        } catch (SQLException | DAOException ex) {
             Logger.getLogger(TravianArbot.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -422,17 +420,19 @@ public class TravianArbot {
         Config config = new Config();
 
         ((JavascriptExecutor) driver).executeScript("window.open();");
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
         driver.get("http://www.inactivesearch.it/es/inactives/" + config.GetPropertie("Server").split("/")[2] + "?c=" + x + "|" + y + "&page=1");
         int paginas = Integer.parseInt(driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[1]/form/ul/li[5]/span")).getText().split("/")[1]);
         for (int i = 1; i <= paginas; i++) {
             List<WebElement> filas = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[3]/div/table/tbody")).findElements(By.tagName("tr"));
-            for (WebElement fila : filas) {
+            filas.stream().map((fila) -> {
                 //asignacion a ListaVacas
                 System.out.print(fila.findElement(By.xpath("./td[2]")).getText() + "*");
+                return fila;
+            }).forEachOrdered((fila) -> {
                 System.out.println(fila.findElement(By.xpath("./td[3]")).getText());
-            }
+            });
             driver.get("http://www.inactivesearch.it/es/inactives/ts1.travian.cl?c=27|-21&page=" + (i + 1));
 
         }
